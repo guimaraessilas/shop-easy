@@ -13,15 +13,9 @@ import { numberToBLR } from "@/utils/numberToBLR";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Box } from "@/components/ui/box";
 import { MaterialIcons } from "@expo/vector-icons";
-import {
-  AlertDialog,
-  AlertDialogBackdrop,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-} from "@/components/ui/alert-dialog";
+
 import { useState } from "react";
+import DeleteAlert from "./components/deleteAlert";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
@@ -39,45 +33,7 @@ const Details = () => {
 
   return (
     <Card className="flex-1 p-4">
-      <AlertDialog isOpen={showDialog} onClose={toggleDialogVisibility}>
-        <AlertDialogBackdrop />
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <Heading className="text-typography-950 font-semibold" size="md">
-              Excluir Produto
-            </Heading>
-            <MaterialIcons
-              onPress={toggleDialogVisibility}
-              name="close"
-              size={20}
-              color="#333"
-            />
-          </AlertDialogHeader>
-          <AlertDialogBody className="mt-3 mb-4">
-            <Text size="sm">
-              Você tem certeza que deseja excluir esse produto? Essa ação não
-              poderá ser desfeita.
-            </Text>
-          </AlertDialogBody>
-          <AlertDialogFooter className="">
-            <Button
-              onPress={toggleDialogVisibility}
-              variant="outline"
-              action="secondary"
-              size="sm"
-            >
-              <ButtonText>Cancelar</ButtonText>
-            </Button>
-            <Button
-              onPress={toggleDialogVisibility}
-              size="sm"
-              className="bg-red-500"
-            >
-              <ButtonText>Excluir</ButtonText>
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteAlert isOpen={showDialog} onClose={toggleDialogVisibility} />
       <VStack className="flex-1 justify-between">
         <VStack>
           <Image
