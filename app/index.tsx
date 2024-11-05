@@ -1,10 +1,21 @@
-import { Text, View } from "react-native";
+import { FlatList } from "react-native";
+import products from "../mocks/products.json";
+import { Product } from "../types/TProduct";
+import ProductListItem from "../components/productListItem";
 
 const Home = () => {
+  const renderItem = ({ item }: { item: Product }) => (
+    <ProductListItem product={item} />
+  );
+
+  const keyExtractor = (item: Product) => String(item.id);
+
   return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
+    <FlatList
+      data={products.products}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+    />
   );
 };
 
