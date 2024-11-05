@@ -1,6 +1,6 @@
 import { Text } from "@/components/ui/text";
-import { useLocalSearchParams } from "expo-router";
-import products from "../../mocks/products.json";
+import { Link, useLocalSearchParams, useNavigation } from "expo-router";
+import products from "../../../mocks/products.json";
 import { Product } from "@/types/TProduct";
 import { VStack } from "@/components/ui/vstack";
 import { Card } from "@/components/ui/card";
@@ -14,8 +14,8 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Box } from "@/components/ui/box";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { useState } from "react";
-import DeleteAlert from "./components/deleteAlert";
+import { useEffect, useState } from "react";
+import DeleteAlert from "../components/deleteAlert";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
@@ -67,10 +67,12 @@ const Details = () => {
         </VStack>
 
         <Box className="flex-col sm:flex-row">
-          <Button className="flex-row bg-blue-500 rounded-lg px-4 py-2 mb-3">
-            <ButtonText>Editar</ButtonText>
-            <MaterialIcons name="edit" size={20} color="white" />
-          </Button>
+          <Link href={`/product/${product.id}/edit`} asChild>
+            <Button className="flex-row bg-blue-500 rounded-lg px-4 py-2 mb-3">
+              <ButtonText>Editar</ButtonText>
+              <MaterialIcons name="edit" size={20} color="white" />
+            </Button>
+          </Link>
           <Button
             onPress={toggleDialogVisibility}
             className="flex-row bg-red-500 rounded-lg px-4 py-2"

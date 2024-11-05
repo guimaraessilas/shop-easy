@@ -1,41 +1,46 @@
-import products from "../mocks/products.json";
-import { Product } from "../types/TProduct";
-import ProductListItem from "../components/productListItem";
 import { Box } from "@/components/ui/box";
-import { Fab, FabIcon } from "@/components/ui/fab";
-import { FlatList } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Button, ButtonText } from "@/components/ui/button";
+import {
+  FormControl,
+  FormControlError,
+  FormControlErrorIcon,
+  FormControlHelper,
+  FormControlHelperText,
+  FormControlLabel,
+  FormControlLabelText,
+} from "@/components/ui/form-control";
+import { Input, InputField } from "@/components/ui/input";
+import { VStack } from "@/components/ui/vstack";
+import { useNavigation } from "expo-router";
+import { useEffect } from "react";
 
-const Home = () => {
-  const renderItem = ({ item }: { item: Product }) => (
-    <ProductListItem product={item} />
-  );
+const Login = () => {
+  const navigation = useNavigation();
 
-  const keyExtractor = (item: Product) => String(item.id);
+  useEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   return (
-    <Box>
-      <FlatList
-        numColumns={2}
-        contentContainerClassName="gap-2"
-        columnWrapperClassName="gap-2"
-        data={products.products}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-      />
-      <Fab
+    <VStack className="flex-1 p-4 justify-center">
+      <FormControl
         size="md"
-        placement="bottom right"
-        isHovered={false}
         isDisabled={false}
-        isPressed={false}
+        isReadOnly={false}
+        isRequired={false}
       >
-        <FabIcon
-          as={() => <Ionicons name="add" size={24} color="white" />}
-        ></FabIcon>
-      </Fab>
-    </Box>
+        <FormControlLabel>
+          <FormControlLabelText>Password</FormControlLabelText>
+        </FormControlLabel>
+        <Input className="my-1">
+          <InputField type="password" placeholder="password" />
+        </Input>
+      </FormControl>
+      <Button className="w-fit self-end mt-4" size="sm">
+        <ButtonText>Submit</ButtonText>
+      </Button>
+    </VStack>
   );
 };
 
-export default Home;
+export default Login;

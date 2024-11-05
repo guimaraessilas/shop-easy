@@ -6,7 +6,12 @@ import { Stack } from "expo-router";
 const RootLayout = () => {
   return (
     <GluestackUIProvider>
-      <Stack />
+      <Stack
+        screenOptions={{
+          headerBackTitleVisible: false,
+          headerTitle: "",
+        }}
+      />
     </GluestackUIProvider>
   );
 };
