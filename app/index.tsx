@@ -12,6 +12,8 @@ const Home = () => {
 
   return (
     <FlatList
+      contentContainerStyle={{ alignItems: "center", backgroundColor: "white" }}
+      numColumns={2}
       data={products.products}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
