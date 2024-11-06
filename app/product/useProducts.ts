@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { productsAPI } from "@/api/products";
 import { TProduct } from "@/types/TProduct";
+import queryClient from "@/utils/queryClient";
 
 type TProductsParams = {
   category?: "male" | "female";
@@ -21,6 +22,19 @@ export const useProducts = ({ category, productId }: TProductsParams) => {
         : Promise.resolve(null),
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (productId: number) => productsAPI.deleteProduct(productId),
+    onSuccess: (product: TProduct) => {
+      console.log("produto deletado corretamente: ", product.isDeleted);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product-detail"] });
+    },
+    onError: (error: any) => {
+      console.log("erro ao deletar o produto: ", error);
+      throw new Error(String(error));
+    },
+  });
+
   return {
     product: {
       data: findProductById.data,
@@ -31,6 +45,11 @@ export const useProducts = ({ category, productId }: TProductsParams) => {
       data: fetchProducts.data,
       isLoading: fetchProducts.isLoading,
       error: fetchProducts.error,
+    },
+    deleteProduct: {
+      mutate: deleteMutation.mutate,
+      isLoading: deleteMutation.isPending,
+      error: deleteMutation.error,
     },
   };
 };

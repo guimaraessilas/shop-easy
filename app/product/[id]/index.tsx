@@ -1,5 +1,10 @@
 import { Text } from "@/components/ui/text";
-import { Link, useLocalSearchParams } from "expo-router";
+import {
+  Link,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 
 import { TProduct } from "@/types/TProduct";
 import { VStack } from "@/components/ui/vstack";
@@ -21,17 +26,28 @@ import { ActivityIndicator } from "react-native";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
+  const { product, deleteProduct } = useProducts({ productId: Number(id) });
+  const { mutate: deleteProductById } = deleteProduct;
 
-  const { product } = useProducts({ productId: Number(id) });
-
+  const [showDialog, setShowDialog] = useState(false);
+  const toggleDialogVisibility = () => setShowDialog(!showDialog);
   const { data, error, isLoading } = product;
+
+  const router = useRouter();
+
+  const handleDelete = () => {
+    deleteProductById(Number(id), {
+      onSuccess() {
+        console.log("batendo aqui");
+        toggleDialogVisibility();
+        router.back();
+      },
+    });
+  };
 
   if (error) {
     return <Text>Product not found</Text>;
   }
-
-  const [showDialog, setShowDialog] = useState(false);
-  const toggleDialogVisibility = () => setShowDialog(!showDialog);
 
   if (isLoading) {
     return (
@@ -43,7 +59,11 @@ const Details = () => {
 
   return (
     <Card className="flex-1 p-4">
-      <DeleteAlert isOpen={showDialog} onClose={toggleDialogVisibility} />
+      <DeleteAlert
+        isOpen={showDialog}
+        onClose={toggleDialogVisibility}
+        action={handleDelete}
+      />
       <VStack className="flex-1 justify-between">
         <VStack>
           <Image

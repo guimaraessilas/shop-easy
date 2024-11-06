@@ -15,9 +15,10 @@ import { Button, ButtonText } from "@/components/ui/button";
 type DeleteAlertProps = {
   isOpen: boolean;
   onClose: () => void;
+  action: () => void;
 };
 
-const DeleteAlert = ({ isOpen, onClose }: DeleteAlertProps) => {
+const DeleteAlert = ({ isOpen, onClose, action }: DeleteAlertProps) => {
   return (
     <AlertDialog isOpen={isOpen} onClose={onClose}>
       <AlertDialogBackdrop />
@@ -26,12 +27,7 @@ const DeleteAlert = ({ isOpen, onClose }: DeleteAlertProps) => {
           <Heading className="text-typography-950 font-semibold" size="md">
             Excluir Produto
           </Heading>
-          <MaterialIcons
-            onPress={onClose}
-            name="close"
-            size={20}
-            color="#333"
-          />
+          <MaterialIcons onPress={action} name="close" size={20} color="#333" />
         </AlertDialogHeader>
         <AlertDialogBody className="mt-3 mb-4">
           <Text size="sm">
@@ -48,7 +44,7 @@ const DeleteAlert = ({ isOpen, onClose }: DeleteAlertProps) => {
           >
             <ButtonText>Cancelar</ButtonText>
           </Button>
-          <Button onPress={onClose} size="sm" className="bg-red-500">
+          <Button onPress={action} size="sm" className="bg-red-500">
             <ButtonText>Excluir</ButtonText>
           </Button>
         </AlertDialogFooter>

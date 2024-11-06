@@ -28,6 +28,7 @@ const Login = () => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
+  // TODO: SET THIS ON REACT QUERY
   const handleSubmit = async () => {
     const user: TUser = await authAPI.login({
       username,
@@ -68,9 +69,6 @@ const Login = () => {
                 </FormControlLabel>
                 <Input className="p-2">
                   <InputField
-                    type="text"
-                    keyboardType="default"
-                    returnKeyType="next"
                     value={username}
                     onChangeText={(text) => setUsername(text)}
                   />
@@ -80,7 +78,6 @@ const Login = () => {
                 </FormControlLabel>
                 <Input className="p-2">
                   <InputField
-                    type={"text"}
                     value={password}
                     onChangeText={(text) => setPassword(text)}
                   />
