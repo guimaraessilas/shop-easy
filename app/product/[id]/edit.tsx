@@ -2,7 +2,11 @@ import { Text } from "@/components/ui/text";
 import { TProduct } from "@/types/TProduct";
 import { useLocalSearchParams } from "expo-router";
 import products from "../../../mocks/products.json";
-import { KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { Input, InputField } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
 import {
@@ -14,19 +18,31 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Box } from "@/components/ui/box";
 import { useState } from "react";
 import EditAlert from "../components/editAlert";
+import { useProducts } from "../useProducts";
+import { numberToBLR } from "@/utils/numberToBLR";
 
 const Edit = () => {
   const { id } = useLocalSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const product: TProduct | undefined = products.products.find(
-    (p: TProduct) => p.id === Number(id)
-  );
+  const { product } = useProducts({ productId: Number(id) });
+  const { data, error, isLoading } = product;
 
-  if (!product) {
-    return <Text>Product not found</Text>;
+  if (error) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
+        <Text>Product not found</Text>
+      </VStack>
+    );
   }
 
-  const [isOpen, setIsOpen] = useState(false);
+  if (isLoading) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </VStack>
+    );
+  }
 
   return (
     <Box className="flex-1 justify-between bg-white">
@@ -37,36 +53,39 @@ const Edit = () => {
             <FormControlLabel>
               <FormControlLabelText>Nome</FormControlLabelText>
             </FormControlLabel>
-            <Input className="my-1">
-              <InputField
-                type="text"
-                keyboardType="default"
-                returnKeyType="next"
-              />
+            <Input>
+              <InputField value={data?.title} />
             </Input>
             <FormControlLabel>
               <FormControlLabelText>Descrição</FormControlLabelText>
             </FormControlLabel>
-            <Input className="my-1">
-              <InputField type="text" multiline />
+            <Input>
+              <InputField type="text" multiline value={data?.description} />
             </Input>
             <FormControlLabel>
               <FormControlLabelText>Preço (R$)</FormControlLabelText>
             </FormControlLabel>
-            <Input className="my-1">
-              <InputField type="text" keyboardType="numeric" />
+            <Input>
+              <InputField
+                type="text"
+                keyboardType="numeric"
+                value={String(data?.price)}
+              />
             </Input>
             <FormControlLabel>
               <FormControlLabelText>Desconto (%)</FormControlLabelText>
             </FormControlLabel>
-            <Input className="my-1">
-              <InputField type="text" />
+            <Input>
+              <InputField
+                type="text"
+                value={String(data?.discountPercentage)}
+              />
             </Input>
             <FormControlLabel>
               <FormControlLabelText>Url da imagem</FormControlLabelText>
             </FormControlLabel>
-            <Input className="my-1">
-              <InputField type="text" />
+            <Input>
+              <InputField type="text" value={data?.thumbnail} />
             </Input>
           </FormControl>
         </VStack>

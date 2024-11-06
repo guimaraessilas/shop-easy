@@ -24,13 +24,11 @@ export const useProducts = ({ category, productId }: TProductsParams) => {
 
   const deleteMutation = useMutation({
     mutationFn: (productId: number) => productsAPI.deleteProduct(productId),
-    onSuccess: (product: TProduct) => {
-      console.log("produto deletado corretamente: ", product.isDeleted);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       queryClient.invalidateQueries({ queryKey: ["product-detail"] });
     },
     onError: (error: any) => {
-      console.log("erro ao deletar o produto: ", error);
       throw new Error(String(error));
     },
   });

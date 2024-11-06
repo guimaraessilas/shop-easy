@@ -1,12 +1,6 @@
 import { Text } from "@/components/ui/text";
-import {
-  Link,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 
-import { TProduct } from "@/types/TProduct";
 import { VStack } from "@/components/ui/vstack";
 import { Card } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
@@ -37,8 +31,7 @@ const Details = () => {
 
   const handleDelete = () => {
     deleteProductById(Number(id), {
-      onSuccess() {
-        console.log("batendo aqui");
+      onSuccess: () => {
         toggleDialogVisibility();
         router.back();
       },
@@ -46,7 +39,11 @@ const Details = () => {
   };
 
   if (error) {
-    return <Text>Product not found</Text>;
+    return (
+      <VStack className="flex-1 justify-center items-center">
+        <Text>Product not found</Text>
+      </VStack>
+    );
   }
 
   if (isLoading) {

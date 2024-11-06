@@ -5,6 +5,7 @@ import { FlatList, ActivityIndicator, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TProduct } from "@/types/TProduct";
 import { useProducts } from "../useProducts";
+import { VStack } from "@/components/ui/vstack";
 
 const Home = () => {
   const { productsList } = useProducts({ category: "male" });
@@ -15,17 +16,26 @@ const Home = () => {
 
   const keyExtractor = (item: TProduct) => String(item.id);
 
-  return (
-    <Box className="bg-white flex-1 justify-center">
-      {productsList.isLoading && (
+  if (productsList.isLoading) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" color="#0000ff" />
-      )}
-      {productsList.error && (
+      </VStack>
+    );
+  }
+
+  if (productsList.error) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
         <Text className="text-red-600 text-center">
           Erro ao carregar produtos.
         </Text>
-      )}
+      </VStack>
+    );
+  }
 
+  return (
+    <Box className="bg-white flex-1 justify-center">
       <FlatList
         numColumns={2}
         data={productsList.data}
