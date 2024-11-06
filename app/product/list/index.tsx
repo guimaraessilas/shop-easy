@@ -7,7 +7,7 @@ import { TProduct } from "@/types/TProduct";
 import { useProducts } from "../useProducts";
 
 const Home = () => {
-  const { data, isLoading, error } = useProducts("male");
+  const { productsList } = useProducts({ category: "male" });
 
   const renderItem = ({ item }: { item: TProduct }) => (
     <ProductListItem product={item} />
@@ -17,8 +17,10 @@ const Home = () => {
 
   return (
     <Box className="bg-white flex-1 justify-center">
-      {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-      {error && (
+      {productsList.isLoading && (
+        <ActivityIndicator size="large" color="#0000ff" />
+      )}
+      {productsList.error && (
         <Text className="text-red-600 text-center">
           Erro ao carregar produtos.
         </Text>
@@ -26,12 +28,12 @@ const Home = () => {
 
       <FlatList
         numColumns={2}
-        data={data}
+        data={productsList.data}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={() =>
-          !isLoading && <Text>Nenhum produto disponível.</Text>
+          !productsList.isLoading && <Text>Nenhum produto disponível.</Text>
         }
       />
 

@@ -16,22 +16,30 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
 import DeleteAlert from "../components/deleteAlert";
+import { useProducts } from "../useProducts";
+import { ActivityIndicator } from "react-native";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
-  // TODO: get product from id
-  const products: TProduct[] = [];
 
-  const product: TProduct | undefined = products.find(
-    (p: TProduct) => p.id === Number(id)
-  );
+  const { product } = useProducts({ productId: Number(id) });
 
-  if (!product) {
+  const { data, error, isLoading } = product;
+
+  if (error) {
     return <Text>Product not found</Text>;
   }
 
   const [showDialog, setShowDialog] = useState(false);
   const toggleDialogVisibility = () => setShowDialog(!showDialog);
+
+  if (isLoading) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </VStack>
+    );
+  }
 
   return (
     <Card className="flex-1 p-4">
@@ -40,7 +48,7 @@ const Details = () => {
         <VStack>
           <Image
             source={{
-              uri: product.thumbnail,
+              uri: data?.thumbnail,
             }}
             resizeMode="contain"
             className="mb-6 h-[170px] w-full rounded-md"
@@ -48,28 +56,25 @@ const Details = () => {
           />
 
           <Heading size="md" className="mb-4">
-            {product.title}
+            {data?.title}
           </Heading>
           <VStack className="mb-6">
-            <Text size="sm">{product.description}</Text>
+            <Text size="sm">{data?.description}</Text>
           </VStack>
           <HStack space="sm" className="items-center">
             <Heading size="md" className="mb-4 text-red-600">
               {numberToBLR(
-                calculateDiscountedPrice(
-                  product.price,
-                  product.discountPercentage
-                )
+                calculateDiscountedPrice(data?.price, data?.discountPercentage)
               )}
             </Heading>
             <Text size="md" className="mb-4" strikeThrough>
-              {numberToBLR(product.price)}
+              {numberToBLR(data?.price)}
             </Text>
           </HStack>
         </VStack>
 
         <Box className="flex-col sm:flex-row">
-          <Link href={`/product/${product.id}/edit`} asChild>
+          <Link href={`/product/${data?.id}/edit`} asChild>
             <Button className="flex-row bg-blue-500 rounded-lg px-4 py-2 mb-3">
               <ButtonText>Editar</ButtonText>
               <MaterialIcons name="edit" size={20} color="white" />

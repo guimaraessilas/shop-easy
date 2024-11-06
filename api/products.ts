@@ -29,4 +29,30 @@ export const productsAPI = {
       throw new Error(String(e));
     }
   },
+  findProductById: async (productId: number) => {
+    return client({
+      method: "get",
+      url: `/products/${productId}`,
+    });
+  },
+  createProduct: async (data: Partial<TProduct>): Promise<TProduct> => {
+    return client({
+      method: "post",
+      url: "/products/add",
+      data,
+    });
+  },
+  updateProduct: async (data: Partial<TProduct>): Promise<TProduct> => {
+    return client({
+      method: "put",
+      url: `/products/${data.id}`,
+      data,
+    });
+  },
+  deleteProduct: async (idProduct: number): Promise<TProduct> => {
+    return client({
+      method: "delete",
+      url: `/products/${idProduct}`,
+    });
+  },
 };

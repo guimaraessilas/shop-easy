@@ -12,10 +12,11 @@ import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions, KeyboardAvoidingView } from "react-native";
-import { authAPI, TUser } from "@/api/auth";
+import { authAPI } from "@/api/auth";
+import { TUser } from "@/types/TUser";
 
 const Login = () => {
   const navigation = useNavigation();

@@ -42,4 +42,5 @@ export type TProduct = {
   meta: TMeta;
   thumbnail: string;
   images: string[];
+  isDeleted: boolean;
 };
