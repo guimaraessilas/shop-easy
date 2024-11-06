@@ -1,10 +1,10 @@
-type Dimensions = {
+type TDimensions = {
   width: number;
   height: number;
   depth: number;
 };
 
-type Review = {
+type TReview = {
   rating: number;
   comment: string;
   date: string; // ISO date string
@@ -12,14 +12,14 @@ type Review = {
   reviewerEmail: string;
 };
 
-type Meta = {
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+type TMeta = {
+  createdAt: string;
+  updatedAt: string;
   barcode: string;
   qrCode: string;
 };
 
-export type Product = {
+export type TProduct = {
   id: number;
   title: string;
   description: string;
@@ -32,14 +32,14 @@ export type Product = {
   brand: string;
   sku: string;
   weight: number;
-  dimensions: Dimensions;
+  dimensions: TDimensions;
   warrantyInformation: string;
   shippingInformation: string;
   availabilityStatus: string;
-  reviews: Review[];
+  reviews: TReview[];
   returnPolicy: string;
   minimumOrderQuantity: number;
-  meta: Meta;
+  meta: TMeta;
   thumbnail: string;
   images: string[];
 };

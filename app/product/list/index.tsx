@@ -1,29 +1,38 @@
-import products from "../../../mocks/products.json";
-
 import ProductListItem from "../../product/components/productListItem";
 import { Box } from "@/components/ui/box";
-import { Fab, FabIcon } from "@/components/ui/fab";
-import { FlatList } from "react-native";
+import { Fab } from "@/components/ui/fab";
+import { FlatList, ActivityIndicator, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-import { Product } from "@/types/TProduct";
+import { TProduct } from "@/types/TProduct";
+import { useProducts } from "../useProducts";
 
 const Home = () => {
-  const renderItem = ({ item }: { item: Product }) => (
+  const { data, isLoading, error } = useProducts("male");
+
+  const renderItem = ({ item }: { item: TProduct }) => (
     <ProductListItem product={item} />
   );
 
-  const keyExtractor = (item: Product) => String(item.id);
+  const keyExtractor = (item: TProduct) => String(item.id);
 
   return (
-    <Box className="bg-white">
+    <Box className="bg-white flex-1 justify-center">
+      {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
+      {error && (
+        <Text className="text-red-600 text-center">
+          Erro ao carregar produtos.
+        </Text>
+      )}
+
       <FlatList
         numColumns={2}
-        contentContainerClassName="gap-2"
-        columnWrapperClassName="gap-2"
-        data={products.products}
+        data={data}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
+        contentContainerStyle={{ flexGrow: 1 }}
+        ListEmptyComponent={() =>
+          !isLoading && <Text>Nenhum produto disponível.</Text>
+        }
       />
 
       <Fab
@@ -34,9 +43,7 @@ const Home = () => {
         isDisabled={false}
         isPressed={false}
       >
-        <FabIcon
-          as={() => <Ionicons name="add" size={24} color="white" />}
-        ></FabIcon>
+        <Ionicons name="add" size={24} color="white" />
       </Fab>
     </Box>
   );

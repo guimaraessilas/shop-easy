@@ -1,5 +1,5 @@
 import { calculateDiscountedPrice } from "@/utils/calculateDiscountPrice";
-import { Product } from "../../../../types/TProduct";
+
 import { Card } from "../../../../components/ui/card";
 import { Divider } from "../../../../components/ui/divider";
 import { Heading } from "../../../../components/ui/heading";
@@ -9,12 +9,13 @@ import { VStack } from "../../../../components/ui/vstack";
 import { HStack } from "../../../../components/ui/hstack";
 import { Link } from "expo-router";
 import { Pressable } from "react-native";
+import { TProduct } from "@/types/TProduct";
 
-const ProductListItem = ({ product }: { product: Product }) => {
+const ProductListItem = ({ product }: { product: TProduct }) => {
   return (
     <Link href={`/product/${product.id}`} asChild>
       <Pressable className="flex-1">
-        <Card variant="outline" className="rounded-lg max-w-[180px] m-3 flex-1">
+        <Card variant="outline" className="rounded-lg max-w-[220px] m-3 flex-1">
           <Image
             resizeMode="contain"
             source={{
@@ -33,14 +34,14 @@ const ProductListItem = ({ product }: { product: Product }) => {
             <Text size="sm">{product.description}</Text>
           </VStack>
           <HStack space="sm" className="items-center">
-            <Heading size="md" className="mb-4">
+            <Heading size="xs" className="mb-2">
               R${" "}
               {calculateDiscountedPrice(
                 product.price,
                 product.discountPercentage
               )}
             </Heading>
-            <Text size="md" className="mb-4" strikeThrough>
+            <Text size="2xs" className="mb-2" strikeThrough>
               R$ {product.price}
             </Text>
           </HStack>

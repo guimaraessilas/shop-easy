@@ -1,7 +1,7 @@
 import { Text } from "@/components/ui/text";
-import { Link, useLocalSearchParams, useNavigation } from "expo-router";
-import products from "../../../mocks/products.json";
-import { Product } from "@/types/TProduct";
+import { Link, useLocalSearchParams } from "expo-router";
+
+import { TProduct } from "@/types/TProduct";
 import { VStack } from "@/components/ui/vstack";
 import { Card } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
@@ -14,14 +14,16 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Box } from "@/components/ui/box";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DeleteAlert from "../components/deleteAlert";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
+  // TODO: get product from id
+  const products: TProduct[] = [];
 
-  const product: Product | undefined = products.products.find(
-    (p: Product) => p.id === Number(id)
+  const product: TProduct | undefined = products.find(
+    (p: TProduct) => p.id === Number(id)
   );
 
   if (!product) {

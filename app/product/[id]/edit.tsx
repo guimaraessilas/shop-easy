@@ -1,5 +1,5 @@
 import { Text } from "@/components/ui/text";
-import { Product } from "@/types/TProduct";
+import { TProduct } from "@/types/TProduct";
 import { useLocalSearchParams } from "expo-router";
 import products from "../../../mocks/products.json";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
@@ -18,8 +18,8 @@ import EditAlert from "../components/editAlert";
 const Edit = () => {
   const { id } = useLocalSearchParams();
 
-  const product: Product | undefined = products.products.find(
-    (p: Product) => p.id === Number(id)
+  const product: TProduct | undefined = products.products.find(
+    (p: TProduct) => p.id === Number(id)
   );
 
   if (!product) {

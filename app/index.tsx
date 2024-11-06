@@ -12,20 +12,33 @@ import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions, KeyboardAvoidingView } from "react-native";
+import { authAPI, TUser } from "@/api/auth";
 
 const Login = () => {
   const navigation = useNavigation();
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () =>
-    setIsPasswordVisible(!isPasswordVisible);
+  const router = useRouter();
+  const [username, setUsername] = useState("emilys");
+  const [password, setPassword] = useState("emilyspass");
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
+
+  const handleSubmit = async () => {
+    const user: TUser = await authAPI.login({
+      username,
+      password,
+    });
+    console.log("USER: ", user);
+    if (user.id) {
+      router.push("product/list");
+    } else {
+      alert("Credenciais inválidas");
+    }
+  };
 
   return (
     <VStack className="flex-1">
@@ -57,6 +70,8 @@ const Login = () => {
                     type="text"
                     keyboardType="default"
                     returnKeyType="next"
+                    value={username}
+                    onChangeText={(text) => setUsername(text)}
                   />
                 </Input>
                 <FormControlLabel>
@@ -64,23 +79,21 @@ const Login = () => {
                 </FormControlLabel>
                 <Input className="p-2">
                   <InputField
-                    type={"password"}
-                    secureTextEntry={isPasswordVisible}
+                    type={"text"}
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
                   />
-                  <MaterialIcons
-                    onPress={togglePasswordVisibility}
-                    name={isPasswordVisible ? "visibility" : "visibility-off"}
-                    size={20}
-                    color="#333"
-                  />
+                  <MaterialIcons size={20} color="#333" />
                 </Input>
               </FormControl>
 
-              <Link href={`/product/list`} asChild>
-                <Button size="sm" className="bg-blue-500 m-3">
-                  <ButtonText>Entrar</ButtonText>
-                </Button>
-              </Link>
+              <Button
+                onPress={handleSubmit}
+                size="sm"
+                className="bg-blue-500 m-3"
+              >
+                <ButtonText>Entrar</ButtonText>
+              </Button>
             </VStack>
           </KeyboardAvoidingView>
         </Card>
