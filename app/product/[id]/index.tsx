@@ -14,9 +14,9 @@ import { Box } from "@/components/ui/box";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
-import DeleteAlert from "../components/deleteAlert";
 import { useProducts } from "../useProducts";
 import { ActivityIndicator } from "react-native";
+import ConfirmationAlert from "../components/confirmationModal";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
@@ -56,10 +56,14 @@ const Details = () => {
 
   return (
     <Card className="flex-1 p-4">
-      <DeleteAlert
+      <ConfirmationAlert
         isOpen={showDialog}
         onClose={toggleDialogVisibility}
         action={handleDelete}
+        title="Excluir Produto"
+        description="Você tem certeza que deseja exluir esse produto? Essa ação não poderá ser desfeita."
+        actionText="Excluir"
+        actionType="warning"
       />
       <VStack className="flex-1 justify-between">
         <VStack>

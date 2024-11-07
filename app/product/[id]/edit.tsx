@@ -5,6 +5,7 @@ import { useProducts } from "../useProducts";
 import { Text } from "@/components/ui/text";
 import ProductForm from "../components/form";
 import { TProduct } from "@/types/TProduct";
+import { useState } from "react";
 
 const EditProduct = () => {
   const { id } = useLocalSearchParams();

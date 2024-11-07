@@ -12,8 +12,9 @@ import { VStack } from "@/components/ui/vstack";
 import { TProduct } from "@/types/TProduct";
 import { useForm, Controller } from "react-hook-form";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
-import EditAlert from "../editAlert";
+
 import { useState } from "react";
+import ConfirmationAlert from "../confirmationModal";
 
 type TProductProps = {
   data?: TProduct;
@@ -39,7 +40,15 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
 
   return (
     <Box className="flex-1 justify-between bg-white">
-      <EditAlert isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ConfirmationAlert
+        isOpen={isOpen}
+        action={handleSubmit(onSubmit)}
+        onClose={() => setIsOpen(false)}
+        actionText="Editar"
+        actionType="default"
+        title="Editar Produto"
+        description="Você tem certeza que deseja editar esse produto? Essa ação não poderá ser desfeita."
+      />
       <KeyboardAvoidingView>
         <VStack className="m-3">
           <ScrollView>
@@ -145,7 +154,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
 
       <Box className="m-3">
         <Button
-          onPress={handleSubmit(onSubmit)}
+          onPress={() => setIsOpen(true)}
           className="flex-row bg-blue-500 rounded-lg px-4 py-2 mb-3"
         >
           <ButtonText>Salvar</ButtonText>

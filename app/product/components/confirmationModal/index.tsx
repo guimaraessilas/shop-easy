@@ -12,28 +12,47 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonText } from "@/components/ui/button";
 
-type DeleteAlertProps = {
+type ConfirmationAlertProps = {
   isOpen: boolean;
   onClose: () => void;
   action: () => void;
+  title: string;
+  description: string;
+  actionType: "default" | "warning";
+  actionText: string;
 };
 
-const DeleteAlert = ({ isOpen, onClose, action }: DeleteAlertProps) => {
+const ConfirmationAlert = ({
+  isOpen,
+  onClose,
+  action,
+  title,
+  description,
+  actionType,
+  actionText,
+}: ConfirmationAlertProps) => {
+  const handleAction = () => {
+    action();
+    onClose();
+  };
+
   return (
     <AlertDialog isOpen={isOpen} onClose={onClose}>
       <AlertDialogBackdrop />
       <AlertDialogContent>
         <AlertDialogHeader>
           <Heading className="text-typography-950 font-semibold" size="md">
-            Excluir Produto
+            {title}
           </Heading>
-          <MaterialIcons onPress={action} name="close" size={20} color="#333" />
+          <MaterialIcons
+            onPress={onClose}
+            name="close"
+            size={20}
+            color="#333"
+          />
         </AlertDialogHeader>
         <AlertDialogBody className="mt-3 mb-4">
-          <Text size="sm">
-            Você tem certeza que deseja excluir esse produto? Essa ação não
-            poderá ser desfeita.
-          </Text>
+          <Text size="sm">{description}</Text>
         </AlertDialogBody>
         <AlertDialogFooter className="">
           <Button
@@ -44,8 +63,12 @@ const DeleteAlert = ({ isOpen, onClose, action }: DeleteAlertProps) => {
           >
             <ButtonText>Cancelar</ButtonText>
           </Button>
-          <Button onPress={action} size="sm" className="bg-red-500">
-            <ButtonText>Excluir</ButtonText>
+          <Button
+            onPress={handleAction}
+            size="sm"
+            className={actionType === "default" ? "bg-blue-500" : "bg-red-500"}
+          >
+            <ButtonText>{actionText}</ButtonText>
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -53,4 +76,4 @@ const DeleteAlert = ({ isOpen, onClose, action }: DeleteAlertProps) => {
   );
 };
 
-export default DeleteAlert;
+export default ConfirmationAlert;

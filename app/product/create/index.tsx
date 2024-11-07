@@ -1,4 +1,3 @@
-import { Text } from "@/components/ui/text";
 import ProductForm from "../components/form";
 import { TProduct } from "@/types/TProduct";
 import { useEffect } from "react";
