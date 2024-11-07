@@ -18,7 +18,7 @@ import { Box } from "@/components/ui/box";
 import { useState } from "react";
 import EditAlert from "../components/editAlert";
 import { useProducts } from "../useProducts";
-import { useForm, Controller } from "react-hook-form"; // Importação do react-hook-form
+import { useForm, Controller } from "react-hook-form";
 import { TProduct } from "@/types/TProduct";
 
 const Edit = () => {

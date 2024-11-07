@@ -28,17 +28,22 @@ const Login = () => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  // TODO: SET THIS ON REACT QUERY
+  // TODO: Set this on React Query
   const handleSubmit = async () => {
-    const user: TUser = await authAPI.login({
-      username,
-      password,
-    });
-    console.log("USER: ", user);
-    if (user.id) {
-      router.push("product/list");
-    } else {
-      alert("Credenciais inválidas");
+    try {
+      const user: TUser = await authAPI.login({
+        username,
+        password,
+      });
+      console.log("USER: ", user);
+      if (user.id) {
+        router.push("product/list");
+      } else {
+        alert("Credenciais inválidas");
+      }
+    } catch (error) {
+      console.error("Erro ao fazer login: ", error);
+      alert("Ocorreu um erro ao tentar fazer login");
     }
   };
 
@@ -61,7 +66,7 @@ const Login = () => {
           Insira seus dados para entrar na sua conta.
         </Text>
         <Card className="max-w-md p-6 bg-white rounded-lg shadow-lg w-full">
-          <KeyboardAvoidingView>
+          <KeyboardAvoidingView behavior="padding">
             <VStack className="m-3">
               <FormControl size="md" className="m-2">
                 <FormControlLabel>
@@ -71,6 +76,7 @@ const Login = () => {
                   <InputField
                     value={username}
                     onChangeText={(text) => setUsername(text)}
+                    className="text-base"
                   />
                 </Input>
                 <FormControlLabel>
@@ -80,8 +86,9 @@ const Login = () => {
                   <InputField
                     value={password}
                     onChangeText={(text) => setPassword(text)}
+                    secureTextEntry
+                    className="text-base"
                   />
-                  <MaterialIcons size={20} color="#333" />
                 </Input>
               </FormControl>
 
