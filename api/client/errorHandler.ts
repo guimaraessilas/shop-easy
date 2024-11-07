@@ -14,7 +14,7 @@ const errorHandler = (error: TErrorResponse, handleError: boolean) => {
       "Ocorreu um erro ao tentar realizar a requisição. Tente novamente mais tarde!"
     );
   }
-  console.warn("request error => ", response);
+  console.warn("request error => ", JSON.stringify(response));
   return Promise.reject(error);
 };
 

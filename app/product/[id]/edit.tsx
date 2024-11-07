@@ -1,20 +1,31 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { VStack } from "@/components/ui/vstack";
-import { useProducts } from "../useProducts";
 import { Text } from "@/components/ui/text";
 import ProductForm from "../components/form";
-import { TProduct } from "@/types/TProduct";
-import { useState } from "react";
+import { useFindProductById } from "@/hooks/products/useFindProductById";
+import { useUpdateProduct } from "@/hooks/products/useUpdateProducts";
 
 const EditProduct = () => {
   const { id } = useLocalSearchParams();
 
-  const { product } = useProducts({ productId: Number(id) });
-  const { data, error, isLoading } = product;
+  const { data, error, isLoading } = useFindProductById({
+    productId: Number(id),
+  });
 
-  const onSubmit = (data: Partial<TProduct>) => {
-    console.log(data);
+  const { mutate: updateProduct } = useUpdateProduct();
+
+  const router = useRouter();
+
+  const onSubmit = (formData: Partial<TProduct>) => {
+    updateProduct(
+      { ...data, ...formData },
+      {
+        onSuccess: () => {
+          router.back();
+        },
+      }
+    );
   };
 
   if (error || !data) {

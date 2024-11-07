@@ -19,7 +19,7 @@ type TMeta = {
   qrCode: string;
 };
 
-export type TProduct = {
+type TProduct = {
   id: number;
   title: string;
   description: string;

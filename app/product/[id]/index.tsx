@@ -14,23 +14,26 @@ import { Box } from "@/components/ui/box";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
-import { useProducts } from "../useProducts";
 import { ActivityIndicator } from "react-native";
 import ConfirmationAlert from "../components/confirmationModal";
+import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
+import { useFindProductById } from "@/hooks/products/useFindProductById";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
-  const { product, deleteProduct } = useProducts({ productId: Number(id) });
-  const { mutate: deleteProductById } = deleteProduct;
+  const { mutate } = useDeleteProduct();
 
   const [showDialog, setShowDialog] = useState(false);
   const toggleDialogVisibility = () => setShowDialog(!showDialog);
-  const { data, error, isLoading } = product;
+
+  const { data, error, isLoading } = useFindProductById({
+    productId: Number(id),
+  });
 
   const router = useRouter();
 
   const handleDelete = () => {
-    deleteProductById(Number(id), {
+    mutate(Number(id), {
       onSuccess: () => {
         toggleDialogVisibility();
         router.back();

@@ -1,8 +1,9 @@
-import { TProduct } from "@/types/TProduct";
 import client from "./client";
 
 export const productsAPI = {
-  fetchProducts: async (category: "male" | "female"): Promise<TProduct[]> => {
+  fetchProducts: async ({
+    category,
+  }: TFetchProductsParams): Promise<TProduct[]> => {
     try {
       const categories =
         category === "male"
@@ -42,11 +43,12 @@ export const productsAPI = {
       data,
     });
   },
-  updateProduct: async (data: Partial<TProduct>): Promise<TProduct> => {
+  updateProduct: async (product: Partial<TProduct>): Promise<TProduct> => {
+    const { id, ...rest } = product;
     return client({
       method: "put",
-      url: `/products/${data.id}`,
-      data,
+      url: `/products/${id}`,
+      data: rest,
     });
   },
   deleteProduct: async (idProduct: number): Promise<TProduct> => {

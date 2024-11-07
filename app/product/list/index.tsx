@@ -3,13 +3,12 @@ import { Box } from "@/components/ui/box";
 import { Fab } from "@/components/ui/fab";
 import { FlatList, ActivityIndicator, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { TProduct } from "@/types/TProduct";
-import { useProducts } from "../useProducts";
 import { VStack } from "@/components/ui/vstack";
 import { Link } from "expo-router";
+import { useFetchAllProducts } from "@/hooks/products/useFetchAllProducts";
 
 const Home = () => {
-  const { productsList } = useProducts({ category: "male" });
+  const { data, isLoading, error } = useFetchAllProducts({ category: "male" });
 
   const renderItem = ({ item }: { item: TProduct }) => (
     <ProductListItem product={item} />
@@ -17,7 +16,7 @@ const Home = () => {
 
   const keyExtractor = (item: TProduct) => String(item.id);
 
-  if (productsList.isLoading) {
+  if (isLoading) {
     return (
       <VStack className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" color="#0000ff" />
@@ -25,7 +24,7 @@ const Home = () => {
     );
   }
 
-  if (productsList.error) {
+  if (error) {
     return (
       <VStack className="flex-1 justify-center items-center">
         <Text className="text-red-600 text-center">
@@ -39,12 +38,12 @@ const Home = () => {
     <Box className="bg-white flex-1 justify-center">
       <FlatList
         numColumns={2}
-        data={productsList.data}
+        data={data}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={() =>
-          !productsList.isLoading && <Text>Nenhum produto disponível.</Text>
+          !isLoading && <Text>Nenhum produto disponível.</Text>
         }
       />
 

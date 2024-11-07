@@ -9,7 +9,6 @@ import { Text } from "@/components/ui/text";
 
 import { Input, InputField } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
-import { TProduct } from "@/types/TProduct";
 import { useForm, Controller } from "react-hook-form";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
 

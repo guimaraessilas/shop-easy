@@ -1,0 +1,3 @@
+type TFindProductByIdParams = {
+  productId?: number;
+};

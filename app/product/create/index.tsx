@@ -1,5 +1,4 @@
 import ProductForm from "../components/form";
-import { TProduct } from "@/types/TProduct";
 import { useEffect } from "react";
 import { useNavigation } from "expo-router";
 
