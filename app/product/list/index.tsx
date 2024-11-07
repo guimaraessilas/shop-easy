@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TProduct } from "@/types/TProduct";
 import { useProducts } from "../useProducts";
 import { VStack } from "@/components/ui/vstack";
+import { Link } from "expo-router";
 
 const Home = () => {
   const { productsList } = useProducts({ category: "male" });
@@ -47,16 +48,18 @@ const Home = () => {
         }
       />
 
-      <Fab
-        size="lg"
-        placement="bottom right"
-        className="bg-blue-500"
-        isHovered={false}
-        isDisabled={false}
-        isPressed={false}
-      >
-        <Ionicons name="add" size={24} color="white" />
-      </Fab>
+      <Link href={"product/create"} asChild>
+        <Fab
+          size="lg"
+          placement="bottom right"
+          className="bg-blue-500"
+          isHovered={false}
+          isDisabled={false}
+          isPressed={false}
+        >
+          <Ionicons name="add" size={24} color="white" />
+        </Fab>
+      </Link>
     </Box>
   );
 };
