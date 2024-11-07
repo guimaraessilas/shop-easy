@@ -1,20 +1,17 @@
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
-import {
-  FormControl,
-  FormControlLabel,
-  FormControlLabelText,
-} from "@/components/ui/form-control";
-import { Text } from "@/components/ui/text";
-import { Input, InputField } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
-import { useForm, Controller } from "react-hook-form";
-import { KeyboardAvoidingView, ScrollView } from "react-native";
+import { FieldError, useForm } from "react-hook-form";
+import { KeyboardAvoidingView, ScrollView, TextInputProps } from "react-native";
 import { useState } from "react";
-import ConfirmationAlert from "../confirmationModal";
+import ConfirmationAlert, {
+  ConfirmationAlertProps,
+} from "../confirmationModal";
+import FormField from "./formField";
+import useProductFormInputs from "./useProductFormInputs";
 
 type TProductProps = {
-  data?: TProduct;
+  data?: Partial<TProduct>;
   onSubmit: (data: Partial<TProduct>) => void;
 };
 
@@ -36,148 +33,51 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
     mode: "onChange",
   });
 
+  const buttonStyle = isValid && isDirty ? "bg-blue-500" : "bg-gray-500";
+
+  const alertProps: ConfirmationAlertProps = {
+    actionText: !data ? "Cadastrar" : "Editar",
+    title: !data ? "Cadastrar Produto" : "Editar Produto",
+    description: !data
+      ? "Você tem certeza que deseja cadastrar esse produto? Essa ação não poderá ser desfeita."
+      : "Você tem certeza que deseja editar esse produto? Essa ação não poderá ser desfeita.",
+    isOpen: isOpen,
+    action: handleSubmit(onSubmit),
+    onClose: () => setIsOpen(false),
+    actionType: "default",
+  };
+
+  const inputs = useProductFormInputs();
+
   return (
     <Box className="flex-1 justify-between bg-white">
-      <ConfirmationAlert
-        isOpen={isOpen}
-        action={handleSubmit(onSubmit)}
-        onClose={() => setIsOpen(false)}
-        actionText="Editar"
-        actionType="default"
-        title="Editar Produto"
-        description="Você tem certeza que deseja editar esse produto? Essa ação não poderá ser desfeita."
-      />
+      <ConfirmationAlert {...alertProps} />
       <KeyboardAvoidingView>
         <VStack className="m-3">
           <ScrollView>
-            <FormControl size="md" className="m-2">
-              <FormControlLabel>
-                <FormControlLabelText>Nome</FormControlLabelText>
-              </FormControlLabel>
-              <Controller
+            {inputs.map((input) => (
+              <FormField
+                key={input.name}
+                name={input.name}
+                label={input.label}
                 control={control}
-                name="title"
-                rules={{ required: "Nome é obrigatório" }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input className="my-1">
-                    <InputField
-                      onChangeText={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      returnKeyType="next"
-                    />
-                  </Input>
-                )}
+                error={errors[input.name] as FieldError}
+                rules={input.rules}
+                inputProps={{
+                  ...input.inputProps,
+                  ref: input.inputRef as React.RefObject<TextInputProps>,
+                }}
               />
-              {errors.title && (
-                <Text className="text-red-500">{errors.title.message}</Text>
-              )}
-
-              <FormControlLabel>
-                <FormControlLabelText>Descrição</FormControlLabelText>
-              </FormControlLabel>
-              <Controller
-                control={control}
-                name="description"
-                rules={{ required: "Descrição é obrigatória" }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input className="my-1">
-                    <InputField
-                      onChangeText={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      returnKeyType="next"
-                      multiline
-                    />
-                  </Input>
-                )}
-              />
-              {errors.description && (
-                <Text className="text-red-500">
-                  {errors.description.message}
-                </Text>
-              )}
-
-              <FormControlLabel>
-                <FormControlLabelText>Preço (R$)</FormControlLabelText>
-              </FormControlLabel>
-              <Controller
-                control={control}
-                name="price"
-                rules={{ required: "Preço é obrigatório" }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input className="my-1">
-                    <InputField
-                      onChangeText={onChange}
-                      onBlur={onBlur}
-                      value={String(value)}
-                      keyboardType="numeric"
-                      returnKeyType="next"
-                    />
-                  </Input>
-                )}
-              />
-              {errors.price && (
-                <Text className="text-red-500">{errors.price.message}</Text>
-              )}
-
-              <FormControlLabel>
-                <FormControlLabelText>Desconto (%)</FormControlLabelText>
-              </FormControlLabel>
-              <Controller
-                control={control}
-                name="discountPercentage"
-                rules={{ required: "Desconto é obrigatório" }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input className="my-1">
-                    <InputField
-                      returnKeyType="next"
-                      onChangeText={onChange}
-                      onBlur={onBlur}
-                      value={String(value)}
-                    />
-                  </Input>
-                )}
-              />
-              {errors.discountPercentage && (
-                <Text className="text-red-500">
-                  {errors.discountPercentage.message}
-                </Text>
-              )}
-
-              <FormControlLabel>
-                <FormControlLabelText>Url da imagem</FormControlLabelText>
-              </FormControlLabel>
-              <Controller
-                control={control}
-                name="thumbnail"
-                rules={{ required: "Url da imagem é obrigatória" }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input className="my-1">
-                    <InputField
-                      returnKeyType="next"
-                      onChangeText={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                    />
-                  </Input>
-                )}
-              />
-              {errors.thumbnail && (
-                <Text className="text-red-500">{errors.thumbnail.message}</Text>
-              )}
-            </FormControl>
+            ))}
           </ScrollView>
         </VStack>
       </KeyboardAvoidingView>
 
       <Box className="m-3">
         <Button
-          disabled={!isValid && isDirty}
+          disabled={!isValid || !isDirty}
           onPress={() => setIsOpen(true)}
-          className={`flex-row rounded-lg px-4 py-2 mb-3 ${
-            isValid && isDirty ? "bg-blue-500" : "bg-gray-500"
-          }`}
+          className={`flex-row rounded-lg px-4 py-2 mb-3 ${buttonStyle}`}
         >
           <ButtonText>Salvar</ButtonText>
         </Button>

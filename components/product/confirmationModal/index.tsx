@@ -12,7 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonText } from "@/components/ui/button";
 
-type ConfirmationAlertProps = {
+export type ConfirmationAlertProps = {
   isOpen: boolean;
   onClose: () => void;
   action: () => void;

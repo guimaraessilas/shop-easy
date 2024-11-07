@@ -1,9 +1,13 @@
 import ProductForm from "../../../components/product/form";
 import { useEffect } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
+import { useCreateProduct } from "@/hooks/products/useCreateProduct";
 
 const CreateProduct = () => {
   const navigation = useNavigation();
+
+  const { mutate } = useCreateProduct();
+  const router = useRouter();
 
   useEffect(() => {
     navigation.setOptions({
@@ -12,8 +16,12 @@ const CreateProduct = () => {
     });
   }, [navigation]);
 
-  const onSubmit = (data: Partial<TProduct>) => {
-    console.log("create: ", data);
+  const onSubmit = (product: Partial<TProduct>) => {
+    mutate(product, {
+      onSuccess: () => {
+        router.back();
+      },
+    });
   };
 
   return <ProductForm onSubmit={onSubmit} />;

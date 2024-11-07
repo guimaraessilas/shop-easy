@@ -9,7 +9,6 @@ import { VStack } from "../../ui/vstack";
 import { HStack } from "../../ui/hstack";
 import { Link } from "expo-router";
 import { Pressable } from "react-native";
-import { TProduct } from "@/types/TProduct";
 
 const ProductListItem = ({ product }: { product: TProduct }) => {
   return (
