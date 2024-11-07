@@ -1,4 +1,4 @@
-import ProductListItem from "../../product/components/productListItem";
+import ProductListItem from "../../../components/product/productListItem";
 import { Box } from "@/components/ui/box";
 import { Fab } from "@/components/ui/fab";
 import { FlatList, ActivityIndicator, Text } from "react-native";

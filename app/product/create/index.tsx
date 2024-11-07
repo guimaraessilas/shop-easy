@@ -1,4 +1,4 @@
-import ProductForm from "../components/form";
+import ProductForm from "../../../components/product/form";
 import { useEffect } from "react";
 import { useNavigation } from "expo-router";
 

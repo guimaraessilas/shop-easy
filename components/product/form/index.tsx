@@ -6,12 +6,10 @@ import {
   FormControlLabelText,
 } from "@/components/ui/form-control";
 import { Text } from "@/components/ui/text";
-
 import { Input, InputField } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
 import { useForm, Controller } from "react-hook-form";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
-
 import { useState } from "react";
 import ConfirmationAlert from "../confirmationModal";
 
@@ -26,7 +24,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm<TProduct>({
     defaultValues: {
       title: data?.title || "",
@@ -35,6 +33,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
       discountPercentage: data?.discountPercentage || 0,
       thumbnail: data?.thumbnail || "",
     },
+    mode: "onChange",
   });
 
   return (
@@ -58,6 +57,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
               <Controller
                 control={control}
                 name="title"
+                rules={{ required: "Nome é obrigatório" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input className="my-1">
                     <InputField
@@ -70,7 +70,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
                 )}
               />
               {errors.title && (
-                <Text className="text-red-500">Nome é obrigatório</Text>
+                <Text className="text-red-500">{errors.title.message}</Text>
               )}
 
               <FormControlLabel>
@@ -79,6 +79,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
               <Controller
                 control={control}
                 name="description"
+                rules={{ required: "Descrição é obrigatória" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input className="my-1">
                     <InputField
@@ -91,6 +92,11 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
                   </Input>
                 )}
               />
+              {errors.description && (
+                <Text className="text-red-500">
+                  {errors.description.message}
+                </Text>
+              )}
 
               <FormControlLabel>
                 <FormControlLabelText>Preço (R$)</FormControlLabelText>
@@ -98,6 +104,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
               <Controller
                 control={control}
                 name="price"
+                rules={{ required: "Preço é obrigatório" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input className="my-1">
                     <InputField
@@ -110,6 +117,9 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
                   </Input>
                 )}
               />
+              {errors.price && (
+                <Text className="text-red-500">{errors.price.message}</Text>
+              )}
 
               <FormControlLabel>
                 <FormControlLabelText>Desconto (%)</FormControlLabelText>
@@ -117,6 +127,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
               <Controller
                 control={control}
                 name="discountPercentage"
+                rules={{ required: "Desconto é obrigatório" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input className="my-1">
                     <InputField
@@ -128,6 +139,11 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
                   </Input>
                 )}
               />
+              {errors.discountPercentage && (
+                <Text className="text-red-500">
+                  {errors.discountPercentage.message}
+                </Text>
+              )}
 
               <FormControlLabel>
                 <FormControlLabelText>Url da imagem</FormControlLabelText>
@@ -135,6 +151,7 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
               <Controller
                 control={control}
                 name="thumbnail"
+                rules={{ required: "Url da imagem é obrigatória" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input className="my-1">
                     <InputField
@@ -146,6 +163,9 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
                   </Input>
                 )}
               />
+              {errors.thumbnail && (
+                <Text className="text-red-500">{errors.thumbnail.message}</Text>
+              )}
             </FormControl>
           </ScrollView>
         </VStack>
@@ -153,8 +173,11 @@ const ProductForm = ({ data, onSubmit }: TProductProps) => {
 
       <Box className="m-3">
         <Button
+          disabled={!isValid && isDirty}
           onPress={() => setIsOpen(true)}
-          className="flex-row bg-blue-500 rounded-lg px-4 py-2 mb-3"
+          className={`flex-row rounded-lg px-4 py-2 mb-3 ${
+            isValid && isDirty ? "bg-blue-500" : "bg-gray-500"
+          }`}
         >
           <ButtonText>Salvar</ButtonText>
         </Button>
