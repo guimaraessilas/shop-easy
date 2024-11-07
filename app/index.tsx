@@ -7,44 +7,46 @@ import {
   FormControlLabelText,
 } from "@/components/ui/form-control";
 import { MaterialIcons } from "@expo/vector-icons";
-
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { useNavigation, useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { Dimensions, KeyboardAvoidingView } from "react-native";
-import { authAPI } from "@/api/auth";
-import { TUser } from "@/types/TUser";
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import { TAuth } from "@/types/TAuth";
+import { useAuth } from "@/hooks/useLoginMutation";
 
 const Login = () => {
   const navigation = useNavigation();
-  const router = useRouter();
-  const [username, setUsername] = useState("emilys");
-  const [password, setPassword] = useState("emilyspass");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TAuth>({
+    defaultValues: {
+      username: "emilys",
+      password: "emilyspass",
+    },
+  });
+
+  const { auth } = useAuth();
+  const { isLoading, mutate } = auth;
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  // TODO: Set this on React Query
-  const handleSubmit = async () => {
-    try {
-      const user: TUser = await authAPI.login({
-        username,
-        password,
-      });
-      console.log("USER: ", user);
-      if (user.id) {
-        router.push("product/list");
-      } else {
-        alert("Credenciais inválidas");
-      }
-    } catch (error) {
-      console.error("Erro ao fazer login: ", error);
-      alert("Ocorreu um erro ao tentar fazer login");
-    }
+  const onSubmit = (data: TAuth) => {
+    mutate(data);
   };
 
   return (
@@ -72,32 +74,73 @@ const Login = () => {
                 <FormControlLabel>
                   <FormControlLabelText>Username</FormControlLabelText>
                 </FormControlLabel>
-                <Input className="p-2">
-                  <InputField
-                    value={username}
-                    onChangeText={(text) => setUsername(text)}
-                    className="text-base"
-                  />
-                </Input>
+                <Controller
+                  control={control}
+                  name="username"
+                  rules={{ required: "Username é obrigatório" }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input className="p-2">
+                      <InputField
+                        value={value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        className="text-base"
+                      />
+                    </Input>
+                  )}
+                />
+                {errors.username && (
+                  <Text className="text-red-500">
+                    {errors.username.message}
+                  </Text>
+                )}
+
                 <FormControlLabel>
                   <FormControlLabelText>Senha</FormControlLabelText>
                 </FormControlLabel>
-                <Input className="p-2">
-                  <InputField
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    secureTextEntry
-                    className="text-base"
-                  />
-                </Input>
+                <Controller
+                  control={control}
+                  name="password"
+                  rules={{ required: "Senha é obrigatória" }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input className="p-2 flex-row items-center">
+                      <InputField
+                        value={value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        secureTextEntry={!showPassword}
+                        className="text-base flex-1"
+                      />
+                      <TouchableOpacity
+                        onPress={() => setShowPassword(!showPassword)}
+                      >
+                        <MaterialIcons
+                          name={showPassword ? "visibility" : "visibility-off"}
+                          size={24}
+                          color="#333"
+                        />
+                      </TouchableOpacity>
+                    </Input>
+                  )}
+                />
+                {errors.password && (
+                  <Text className="text-red-500">
+                    {errors.password.message}
+                  </Text>
+                )}
               </FormControl>
 
               <Button
-                onPress={handleSubmit}
+                onPress={handleSubmit(onSubmit)}
                 size="sm"
-                className="bg-blue-500 m-3"
+                className="bg-blue-500 m-3 flex-row items-center justify-center"
+                disabled={isLoading}
               >
-                <ButtonText>Entrar</ButtonText>
+                {isLoading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <ButtonText>Entrar</ButtonText>
+                )}
               </Button>
             </VStack>
           </KeyboardAvoidingView>

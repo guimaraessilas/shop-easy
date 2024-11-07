@@ -8,15 +8,13 @@ const errorHandler = (error: TErrorResponse, handleError: boolean) => {
 
   const { response } = error;
 
-  if (Number(response?.status) >= HttpStatusCode.BadRequest) {
+  if (Number(response?.status) >= HttpStatusCode.InternalServerError) {
     Alert.alert(
       "Opss...",
       "Ocorreu um erro ao tentar realizar a requisição. Tente novamente mais tarde!"
     );
-  } else {
-    Alert.alert("Opss...", "Ocorreu um erro inesperado");
   }
-
+  console.warn("request error => ", response);
   return Promise.reject(error);
 };
 
