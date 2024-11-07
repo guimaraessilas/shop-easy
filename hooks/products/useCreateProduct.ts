@@ -7,6 +7,6 @@ export const useCreateProduct = () => {
     mutationFn: (product: Partial<TProduct>) =>
       productsAPI.createProduct(product),
     onSuccess: () => alert("Produto criado com sucesso"),
-    onError: (error) => console.error("Erro ao criar produto:", error),
+    onError: (error) => console.error("Erro ao criar produto: ", error),
   });
 };

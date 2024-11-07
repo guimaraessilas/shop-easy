@@ -4,10 +4,10 @@ import { TAuth } from "@/types/TAuth";
 import { TUser } from "@/types/TUser";
 import { useRouter } from "expo-router";
 
-export const useAuth = () => {
+export const useLogin = () => {
   const router = useRouter();
 
-  const loginMutation = useMutation({
+  return useMutation({
     mutationKey: ["login"],
     mutationFn: (auth: TAuth) => {
       return authAPI.login(auth);
@@ -17,14 +17,8 @@ export const useAuth = () => {
       // TODO: armazenar accessKey on SecureAsyncStore
       router.push("product/list");
     },
-    onError: (error: any) => alert("Erro ao realizar o login"),
-  });
-
-  return {
-    auth: {
-      mutate: loginMutation.mutate,
-      isLoading: loginMutation.isPending,
-      error: loginMutation.error,
+    onError: (error) => {
+      console.error("Erro ao realizar o login: ", error);
     },
-  };
+  });
 };

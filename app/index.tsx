@@ -21,7 +21,7 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { TAuth } from "@/types/TAuth";
-import { useAuth } from "@/hooks/useLoginMutation";
+import { useLogin } from "@/hooks/authentication/useLogin";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -38,8 +38,7 @@ const Login = () => {
     },
   });
 
-  const { auth } = useAuth();
-  const { isLoading, mutate } = auth;
+  const { mutate, isPending: isLoading } = useLogin();
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
