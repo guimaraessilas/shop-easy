@@ -7,8 +7,12 @@ import { VStack } from "@/components/ui/vstack";
 import { Link } from "expo-router";
 import { useFetchAllProducts } from "@/hooks/products/useFetchAllProducts";
 
-const Home = () => {
-  const { data, isLoading, error } = useFetchAllProducts({ category: "male" });
+type ProductsList = {
+  category: "male" | "female";
+};
+
+const ProductsList = ({ category }: ProductsList) => {
+  const { data, isLoading, error } = useFetchAllProducts({ category });
 
   const renderItem = ({ item }: { item: TProduct }) => (
     <ProductListItem product={item} />
@@ -63,4 +67,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ProductsList;

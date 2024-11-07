@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { VStack } from "@/components/ui/vstack";
 import { Text } from "@/components/ui/text";
-import ProductForm from "../../../components/product/form";
+import ProductForm from "../../../../components/product/form";
 import { useFindProductById } from "@/hooks/products/useFindProductById";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProducts";
 

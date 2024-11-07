@@ -15,7 +15,7 @@ export const useLogin = () => {
     onSuccess: (user: TUser) => {
       // TODO: adicionar user ao zustand
       // TODO: armazenar accessKey on SecureAsyncStore
-      router.push("product/list");
+      router.push("/(tabs)/home");
     },
     onError: (error) => {
       console.error("Erro ao realizar o login: ", error);
