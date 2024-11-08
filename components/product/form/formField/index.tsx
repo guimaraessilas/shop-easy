@@ -7,6 +7,7 @@ import { InputField, Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { Control, FieldError, Controller } from "react-hook-form";
+import { TextInputProps } from "react-native";
 
 type FormFieldProps = {
   name: keyof TProduct;
@@ -41,6 +42,7 @@ const FormField = ({
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={String(value)}
+                {...(inputProps as TextInputProps)}
               />
             </Textarea>
           ) : (
