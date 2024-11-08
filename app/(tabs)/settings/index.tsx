@@ -1,6 +1,7 @@
 import ErrorMessage from "@/components/errorMessage";
 import Loader from "@/components/loader";
 import OptionItem from "@/components/optionItem";
+import ConfirmationAlert from "@/components/product/confirmationModal";
 import {
   Avatar,
   AvatarFallbackText,
@@ -13,10 +14,15 @@ import { VStack } from "@/components/ui/vstack";
 import { useFindUserByToken } from "@/hooks/authentication/useFindUserByToken";
 import { authStore } from "@/store/authStore";
 import { router } from "expo-router";
+import { useState } from "react";
 
 const Settings = () => {
   const { isLoading, error } = useFindUserByToken();
   const { user, logout } = authStore((state) => state);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAlertVisibility = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
     logout();
@@ -33,6 +39,15 @@ const Settings = () => {
 
   return (
     <Box className="flex-1">
+      <ConfirmationAlert
+        action={handleLogout}
+        actionText="Sair"
+        actionType="warning"
+        description="Você tem certeza que deseja sair da conta?"
+        isOpen={isOpen}
+        onClose={toggleAlertVisibility}
+        title="Sair da conta"
+      />
       <Box className="h-[240px] bg-blue-500" />
 
       <VStack className="rounded-t-xl bg-white -mt-20">
@@ -59,7 +74,10 @@ const Settings = () => {
         </VStack>
 
         <Box className="px-5">
-          <Button onPress={handleLogout} className="bg-red-500 rounded-lg">
+          <Button
+            onPress={toggleAlertVisibility}
+            className="bg-red-500 rounded-lg"
+          >
             <Text className="text-white font-bold">Sair da conta</Text>
           </Button>
         </Box>

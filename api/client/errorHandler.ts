@@ -39,7 +39,6 @@ const errorHandler = async (
     );
   }
 
-  console.warn("Request error => ", JSON.stringify(response));
   return Promise.reject(error);
 };
 

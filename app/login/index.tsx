@@ -21,6 +21,8 @@ import {
   StyleSheet,
   TextInput,
   TextInputProps,
+  ScrollView,
+  Keyboard,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useLogin } from "@/hooks/authentication/useLogin";
@@ -37,13 +39,13 @@ const Login = () => {
     formState: { errors, isValid },
   } = useForm<TAuth>({
     defaultValues: {
-      username: "emilys",
-      password: "emilyspass",
+      password: "",
+      username: "",
     },
     mode: "onBlur",
   });
 
-  const { mutate, isPending: isLoading } = useLogin();
+  const { mutate, isPending: isLoading, error } = useLogin();
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -54,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <VStack className="flex-1">
+    <VStack onTouchStart={() => Keyboard.dismiss()} className="flex-1">
       <Box className="bg-blue-500 flex-1" />
       <Box className="bg-white flex-1" />
       <Box className="absolute" style={styles.content}>
@@ -67,6 +69,11 @@ const Login = () => {
         <Card className="max-w-md p-6 bg-white rounded-lg shadow-lg w-full">
           <KeyboardAvoidingView behavior="padding">
             <VStack className="m-3">
+              {error && (
+                <Text className="text-red-500 text-center">
+                  Username ou senha
+                </Text>
+              )}
               <FormControl size="md" className="m-2">
                 <FormControlLabel>
                   <FormControlLabelText>Username</FormControlLabelText>
