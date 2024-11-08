@@ -1,6 +1,4 @@
-import { TAuth } from "./TAuth";
-
-export type TUser = {
+type TUser = {
   accessToken: string;
   refreshToken: string;
   email: string;

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { productsAPI } from "@/api/products";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/api/queryClient";
 
 export const useDeleteProduct = () => {
   return useMutation({

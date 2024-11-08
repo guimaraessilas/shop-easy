@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
-import { useRouter, Redirect } from "expo-router";
-
-const checkIfUserIsAuthenticated = async () => {
-  return true;
-};
+import { Redirect } from "expo-router";
+import { authStore } from "@/store/authStore";
+import { VStack } from "@/components/ui/vstack";
+import { ActivityIndicator } from "react-native";
 
 const Index = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const loadToken = authStore((state) => state.loadToken);
+  const accessToken = authStore((state) => state.accessToken);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const userAuthenticated = await checkIfUserIsAuthenticated();
-      setIsAuthenticated(userAuthenticated);
+    const checkIfUserIsLogged = async () => {
+      await loadToken();
+      setIsLoading(false);
     };
 
-    checkAuthentication();
+    checkIfUserIsLogged();
   }, []);
 
-  if (isAuthenticated === null) return null;
+  if (isLoading) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </VStack>
+    );
+  }
 
-  if (isAuthenticated) {
+  if (accessToken) {
     return <Redirect href="/(tabs)/home" />;
   }
 

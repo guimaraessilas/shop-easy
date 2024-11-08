@@ -21,7 +21,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { TAuth } from "@/types/TAuth";
 import { useLogin } from "@/hooks/authentication/useLogin";
 
 const Login = () => {

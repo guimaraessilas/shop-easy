@@ -2,7 +2,7 @@ import "@/global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { router, Stack } from "expo-router";
 import { QueryClientProvider } from "@tanstack/react-query";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/api/queryClient";
 import {
   Button,
   SafeAreaView,

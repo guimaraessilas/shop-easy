@@ -1,4 +1,4 @@
-export type TAuth = {
+type TAuth = {
   username: string;
   password: string;
 };
