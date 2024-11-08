@@ -30,12 +30,9 @@ const Login = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<TAuth>({
-    defaultValues: {
-      username: "emilys",
-      password: "emilyspass",
-    },
+    mode: "all",
   });
 
   const { mutate, isPending: isLoading } = useLogin();
@@ -126,7 +123,7 @@ const Login = () => {
                 onPress={handleSubmit(onSubmit)}
                 size="sm"
                 className="bg-blue-500 m-3 flex-row items-center justify-center"
-                disabled={isLoading}
+                disabled={isLoading || !isValid}
               >
                 {isLoading ? (
                   <ActivityIndicator color="#fff" />
