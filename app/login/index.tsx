@@ -18,6 +18,7 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { TAuth } from "@/types/TAuth";
@@ -52,14 +53,7 @@ const Login = () => {
     <VStack className="flex-1">
       <Box className="bg-blue-500 flex-1" />
       <Box className="bg-white flex-1" />
-      <Box
-        className="absolute"
-        style={{
-          alignSelf: "center",
-          top: Dimensions.get("window").height / 3.5,
-          marginHorizontal: 20,
-        }}
-      >
+      <Box className="absolute" style={styles.content}>
         <Heading className="text-white text-center">
           Bem-vindo de volta!
         </Heading>
@@ -150,3 +144,11 @@ const Login = () => {
 };
 
 export default Login;
+
+const styles = StyleSheet.create({
+  content: {
+    alignSelf: "center",
+    top: Dimensions.get("window").height / 3.5,
+    marginHorizontal: 20,
+  },
+});

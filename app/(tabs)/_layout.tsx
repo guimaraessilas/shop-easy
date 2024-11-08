@@ -7,6 +7,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName="settings"
     >
       <Tabs.Screen
         name="home"
