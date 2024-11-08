@@ -1,7 +1,7 @@
 import ErrorMessage from "@/components/errorMessage";
 import Loader from "@/components/loader";
 import OptionItem from "@/components/optionItem";
-import ConfirmationAlert from "@/components/product/confirmationModal";
+import ConfirmationAlert from "@/components/confirmationModal";
 import {
   Avatar,
   AvatarFallbackText,

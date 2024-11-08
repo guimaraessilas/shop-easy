@@ -17,7 +17,7 @@ import { useState } from "react";
 
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 import { useFindProductById } from "@/hooks/products/useFindProductById";
-import ConfirmationAlert from "@/components/product/confirmationModal";
+import ConfirmationAlert from "@/components/confirmationModal";
 import Loader from "@/components/loader";
 import ErrorMessage from "@/components/errorMessage";
 

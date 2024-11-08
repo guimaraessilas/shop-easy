@@ -6,7 +6,7 @@ import { KeyboardAvoidingView, ScrollView, TextInputProps } from "react-native";
 import { useState } from "react";
 import ConfirmationAlert, {
   ConfirmationAlertProps,
-} from "../confirmationModal";
+} from "../../confirmationModal";
 import FormField from "./formField";
 import useProductFormInputs from "./useProductFormInputs";
 
