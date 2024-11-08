@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, HttpStatusCode } from "axios";
 import { Alert } from "react-native";
 import { authStore } from "@/store/authStore";
 import { refreshToken } from "./refreshToken";
+import { router } from "expo-router";
 
 const errorHandler = async (
   error: TErrorResponse,
@@ -23,6 +24,7 @@ const errorHandler = async (
     } catch (refreshError) {
       console.error("Erro ao tentar atualizar o token: ", refreshError);
       authStore.getState().logout();
+      router.replace("/login");
       return Promise.reject(refreshError);
     }
   }

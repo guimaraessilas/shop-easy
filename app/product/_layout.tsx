@@ -3,12 +3,7 @@ import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { router, Stack } from "expo-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "@/api/queryClient";
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const ProductLayout = () => {

@@ -1,6 +1,4 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { VStack } from "@/components/ui/vstack";
-import { Text } from "@/components/ui/text";
 
 import { useFindProductById } from "@/hooks/products/useFindProductById";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProducts";

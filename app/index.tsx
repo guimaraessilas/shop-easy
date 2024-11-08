@@ -4,13 +4,13 @@ import { authStore } from "@/store/authStore";
 import Loader from "@/components/loader";
 
 const Index = () => {
-  const { loadToken, accessToken } = authStore((state) => state);
+  const { loadTokens, accessToken } = authStore((state) => state);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkIfUserIsLogged = async () => {
-      await loadToken();
+      await loadTokens();
       setIsLoading(false);
     };
 

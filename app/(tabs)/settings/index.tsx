@@ -12,10 +12,16 @@ import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useFindUserByToken } from "@/hooks/authentication/useFindUserByToken";
 import { authStore } from "@/store/authStore";
+import { router } from "expo-router";
 
 const Settings = () => {
   const { isLoading, error } = useFindUserByToken();
   const { user, logout } = authStore((state) => state);
+
+  const handleLogout = () => {
+    logout();
+    router.replace("/login");
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -53,7 +59,7 @@ const Settings = () => {
         </VStack>
 
         <Box className="px-5">
-          <Button onPress={() => logout()} className="bg-red-500 rounded-lg">
+          <Button onPress={handleLogout} className="bg-red-500 rounded-lg">
             <Text className="text-white font-bold">Sair da conta</Text>
           </Button>
         </Box>

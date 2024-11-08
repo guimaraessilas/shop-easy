@@ -12,7 +12,7 @@ const createAxiosInstance = () => {
 
   instance.interceptors.request.use(
     async (config) => {
-      await authStore.getState().loadToken();
+      await authStore.getState().loadTokens();
       const accessToken = authStore.getState().accessToken;
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;

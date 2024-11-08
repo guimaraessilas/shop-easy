@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { authAPI } from "@/api/auth";
 import { authStore } from "@/store/authStore";
+import { router } from "expo-router";
 
 export const useFindUserByToken = () => {
   const { setUser, logout, user } = authStore((state) => state);
@@ -15,6 +16,7 @@ export const useFindUserByToken = () => {
         return userData;
       } else {
         logout();
+        router.replace("/login");
       }
     },
   });
