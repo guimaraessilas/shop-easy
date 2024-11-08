@@ -5,7 +5,7 @@ import { authStore } from "@/store/authStore";
 
 export const useLogin = () => {
   const router = useRouter();
-  const loginToStore = authStore((state) => state.login);
+  const { login } = authStore((state) => state);
 
   return useMutation({
     mutationKey: ["login"],
@@ -13,7 +13,7 @@ export const useLogin = () => {
       return authAPI.login(auth);
     },
     onSuccess: async (user: TUser) => {
-      await loginToStore(user.accessToken, user);
+      login(user);
       router.push("/(tabs)/home");
     },
     onError: (error) => {

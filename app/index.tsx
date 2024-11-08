@@ -5,8 +5,8 @@ import { VStack } from "@/components/ui/vstack";
 import { ActivityIndicator } from "react-native";
 
 const Index = () => {
-  const loadToken = authStore((state) => state.loadToken);
-  const accessToken = authStore((state) => state.accessToken);
+  const { loadToken, accessToken } = authStore((state) => state);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

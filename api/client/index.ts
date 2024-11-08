@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import errorHandler from "./errorHandler";
+import { authStore } from "@/store/authStore";
 
 const createAxiosInstance = () => {
   const instance = axios.create({
@@ -10,7 +11,13 @@ const createAxiosInstance = () => {
   });
 
   instance.interceptors.request.use(
-    (config) => config,
+    async (config) => {
+      const accessToken = authStore.getState().accessToken;
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
     (error) => Promise.reject(error)
   );
 
@@ -24,8 +31,7 @@ const client = async (options: AxiosRequestConfig, handleError = true) => {
     const response: AxiosResponse = await instance(options);
     return response.data;
   } catch (error) {
-    errorHandler(error as TErrorResponse, handleError);
-    throw error;
+    return await errorHandler(error as TErrorResponse, handleError, options);
   }
 };
 
