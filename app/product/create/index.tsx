@@ -1,7 +1,7 @@
-import ProductForm from "../../../../components/product/form";
 import { useEffect } from "react";
 import { useNavigation, useRouter } from "expo-router";
 import { useCreateProduct } from "@/hooks/products/useCreateProduct";
+import ProductForm from "@/components/product/form";
 
 const CreateProduct = () => {
   const navigation = useNavigation();
@@ -12,7 +12,6 @@ const CreateProduct = () => {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Adicionar Produto",
-      headerTitleAlign: "left",
     });
   }, [navigation]);
 

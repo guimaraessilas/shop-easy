@@ -15,9 +15,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
 import { ActivityIndicator } from "react-native";
-import ConfirmationAlert from "../../../../components/product/confirmationModal";
+
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 import { useFindProductById } from "@/hooks/products/useFindProductById";
+import ConfirmationAlert from "../../../components/product/confirmationModal";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
