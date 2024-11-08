@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/form-control";
 import { InputField, Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
+import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { Control, FieldError, Controller } from "react-hook-form";
 
 type FormFieldProps = {
@@ -32,16 +33,28 @@ const FormField = ({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { onChange, onBlur, value } }) => (
-        <Input className="my-1">
-          <InputField
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={String(value)}
-            {...inputProps}
-          />
-        </Input>
-      )}
+      render={({ field: { onChange, onBlur, value } }) => {
+        {
+          return inputProps?.multiline ? (
+            <Textarea size="md">
+              <TextareaInput
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={String(value)}
+              />
+            </Textarea>
+          ) : (
+            <Input className="my-1">
+              <InputField
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={String(value)}
+                {...inputProps}
+              />
+            </Input>
+          );
+        }
+      }}
     />
     {error && <Text className="text-red-500">{error.message}</Text>}
   </FormControl>
