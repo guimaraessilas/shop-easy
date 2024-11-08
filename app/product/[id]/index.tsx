@@ -18,7 +18,7 @@ import { ActivityIndicator } from "react-native";
 
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 import { useFindProductById } from "@/hooks/products/useFindProductById";
-import ConfirmationAlert from "../../../components/product/confirmationModal";
+import ConfirmationAlert from "@/components/product/confirmationModal";
 
 const Details = () => {
   const { id } = useLocalSearchParams();

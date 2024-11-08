@@ -26,7 +26,7 @@ export const productsAPI = {
 
       return allProducts;
     } catch (e) {
-      console.log("Erro inesperado ao buscar produtos masculinos", e);
+      console.error("Erro inesperado ao buscar produtos masculinos", e);
       throw new Error(String(e));
     }
   },

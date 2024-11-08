@@ -1,6 +1,6 @@
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Ionicons } from "@expo/vector-icons";
-import { Text } from "../ui/text";
+import { Text } from "@/components/ui/text";
 
 const OptionItem = ({ icon, label }: any) => (
   <Button

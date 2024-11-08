@@ -18,6 +18,7 @@ export const useLogin = () => {
     },
     onError: (error) => {
       console.error("Erro ao realizar o login: ", error);
+      throw new Error(String(error));
     },
   });
 };

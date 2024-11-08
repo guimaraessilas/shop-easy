@@ -1,4 +1,4 @@
-import ProductListItem from "../../../components/product/productListItem";
+import ProductListItem from "@/components/product/productListItem";
 import { Box } from "@/components/ui/box";
 import { Fab } from "@/components/ui/fab";
 import { FlatList, ActivityIndicator, Text } from "react-native";
@@ -6,12 +6,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { VStack } from "@/components/ui/vstack";
 import { Link } from "expo-router";
 import { useFetchAllProducts } from "@/hooks/products/useFetchAllProducts";
+import { useIsLargeScreen } from "@/hooks/useIsLargeScreen";
 
 type ProductsList = {
   category: "male" | "female";
 };
 
 const ProductsList = ({ category }: ProductsList) => {
+  const isLargeScreen = useIsLargeScreen();
+
   const { data, isLoading, error } = useFetchAllProducts({ category });
 
   const renderItem = ({ item }: { item: TProduct }) => (
@@ -41,11 +44,14 @@ const ProductsList = ({ category }: ProductsList) => {
   return (
     <Box className="bg-white flex-1 justify-center">
       <FlatList
-        numColumns={2}
+        numColumns={isLargeScreen ? 3 : 2}
         data={data}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={[
+          { flexGrow: 1 },
+          isLargeScreen && { alignItems: "center" },
+        ]}
         ListEmptyComponent={() =>
           !isLoading && <Text>Nenhum produto disponível.</Text>
         }
