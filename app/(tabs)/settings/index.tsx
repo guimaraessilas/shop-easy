@@ -1,3 +1,4 @@
+import Loader from "@/components/loader";
 import OptionItem from "@/components/optionItem";
 import {
   Avatar,
@@ -12,8 +13,12 @@ import { useFindUserByToken } from "@/hooks/authentication/useFindUserByToken";
 import { authStore } from "@/store/authStore";
 
 const Settings = () => {
-  const { data } = useFindUserByToken();
+  const { isLoading } = useFindUserByToken();
   const { user, logout } = authStore((state) => state);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Box className="flex-1">

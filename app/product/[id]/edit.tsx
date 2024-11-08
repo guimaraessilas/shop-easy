@@ -1,11 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ActivityIndicator } from "react-native";
 import { VStack } from "@/components/ui/vstack";
 import { Text } from "@/components/ui/text";
 
 import { useFindProductById } from "@/hooks/products/useFindProductById";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProducts";
 import ProductForm from "@/components/product/form";
+import Loader from "@/components/loader";
 
 const EditProduct = () => {
   const { id } = useLocalSearchParams();
@@ -38,11 +38,7 @@ const EditProduct = () => {
   }
 
   if (isLoading) {
-    return (
-      <VStack className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </VStack>
-    );
+    return <Loader />;
   }
   return <ProductForm data={data} onSubmit={onSubmit} />;
 };

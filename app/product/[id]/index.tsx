@@ -14,11 +14,11 @@ import { Box } from "@/components/ui/box";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
-import { ActivityIndicator } from "react-native";
 
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 import { useFindProductById } from "@/hooks/products/useFindProductById";
 import ConfirmationAlert from "@/components/product/confirmationModal";
+import Loader from "@/components/loader";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
@@ -51,11 +51,7 @@ const Details = () => {
   }
 
   if (isLoading) {
-    return (
-      <VStack className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </VStack>
-    );
+    return <Loader />;
   }
 
   return (
