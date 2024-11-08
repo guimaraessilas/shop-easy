@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/errorMessage";
 import Loader from "@/components/loader";
 import OptionItem from "@/components/optionItem";
 import {
@@ -21,13 +22,7 @@ const Settings = () => {
   }
 
   if (error && !user) {
-    return (
-      <VStack className="flex-1 justify-center items-center">
-        <Text className="text-red-600 text-center">
-          Erro ao carregar dados do usuário.
-        </Text>
-      </VStack>
-    );
+    return <ErrorMessage message="Erro ao carregar dados do usuário." />;
   }
 
   return (

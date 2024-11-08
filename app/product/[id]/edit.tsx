@@ -6,6 +6,7 @@ import { useFindProductById } from "@/hooks/products/useFindProductById";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProducts";
 import ProductForm from "@/components/product/form";
 import Loader from "@/components/loader";
+import ErrorMessage from "@/components/errorMessage";
 
 const EditProduct = () => {
   const { id } = useLocalSearchParams();
@@ -30,11 +31,7 @@ const EditProduct = () => {
   };
 
   if (error || !data) {
-    return (
-      <VStack className="flex-1 justify-center items-center">
-        <Text>Product not found</Text>
-      </VStack>
-    );
+    return <ErrorMessage message="Produto não encontrado" />;
   }
 
   if (isLoading) {

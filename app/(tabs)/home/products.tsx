@@ -1,14 +1,15 @@
 import ProductListItem from "@/components/product/productListItem";
 import { Box } from "@/components/ui/box";
 import { Fab } from "@/components/ui/fab";
-import { FlatList, ActivityIndicator, Text } from "react-native";
+import { FlatList, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { VStack } from "@/components/ui/vstack";
+
 import { Link } from "expo-router";
 import { useFetchAllProducts } from "@/hooks/products/useFetchAllProducts";
 import { useIsLargeScreen } from "@/hooks/useIsLargeScreen";
 import Loader from "@/components/loader";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ErrorMessage from "@/components/errorMessage";
 
 type ProductsList = {
   category: "male" | "female";
@@ -30,13 +31,7 @@ const ProductsList = ({ category }: ProductsList) => {
   }
 
   if (error) {
-    return (
-      <VStack className="flex-1 justify-center items-center">
-        <Text className="text-red-600 text-center">
-          Erro ao carregar produtos.
-        </Text>
-      </VStack>
-    );
+    return <ErrorMessage message="Erro ao carregar produtos." />;
   }
 
   return (
