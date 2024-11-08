@@ -13,11 +13,21 @@ import { useFindUserByToken } from "@/hooks/authentication/useFindUserByToken";
 import { authStore } from "@/store/authStore";
 
 const Settings = () => {
-  const { isLoading } = useFindUserByToken();
+  const { isLoading, error } = useFindUserByToken();
   const { user, logout } = authStore((state) => state);
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (error && !user) {
+    return (
+      <VStack className="flex-1 justify-center items-center">
+        <Text className="text-red-600 text-center">
+          Erro ao carregar dados do usuário.
+        </Text>
+      </VStack>
+    );
   }
 
   return (

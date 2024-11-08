@@ -3,14 +3,16 @@ import { authAPI } from "@/api/auth";
 import { authStore } from "@/store/authStore";
 
 export const useFindUserByToken = () => {
-  const { setUser, logout } = authStore((state) => state);
+  const { setUser, logout, user } = authStore((state) => state);
 
   return useQuery({
     queryKey: ["me"],
+    enabled: !user,
     queryFn: async () => {
-      const user = await authAPI.me();
-      if (user) {
-        setUser(user);
+      const userData = await authAPI.me();
+      if (userData) {
+        setUser(userData);
+        return userData;
       } else {
         logout();
       }

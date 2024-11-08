@@ -9,7 +9,7 @@ export const useUpdateProduct = () => {
     onSuccess: () => alert("Produto atualizado com sucesso"),
     onError: (error) => {
       alert("Erro ao atualizar o produto");
-      console.error(error);
+      console.error("Erro ao atualizar o produto", error);
     },
   });
 };
