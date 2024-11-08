@@ -12,13 +12,15 @@ import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useNavigation } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   KeyboardAvoidingView,
   ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
+  TextInput,
+  TextInputProps,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useLogin } from "@/hooks/authentication/useLogin";
@@ -27,12 +29,18 @@ const Login = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
 
+  const passwordInputRef = useRef<TextInput>(null);
+
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TAuth>({
-    mode: "all",
+    defaultValues: {
+      username: "emilys",
+      password: "emilyspass",
+    },
+    mode: "onBlur",
   });
 
   const { mutate, isPending: isLoading } = useLogin();
@@ -74,6 +82,10 @@ const Login = () => {
                         onBlur={onBlur}
                         onChangeText={onChange}
                         className="text-base"
+                        returnKeyType="next"
+                        onSubmitEditing={() =>
+                          passwordInputRef.current?.focus()
+                        }
                       />
                     </Input>
                   )}
@@ -94,11 +106,16 @@ const Login = () => {
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Input className="p-2 flex-row items-center">
                       <InputField
+                        ref={
+                          passwordInputRef as React.LegacyRef<TextInputProps>
+                        }
                         value={value}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         secureTextEntry={!showPassword}
                         className="text-base flex-1"
+                        returnKeyType="done"
+                        onSubmitEditing={handleSubmit(onSubmit)}
                       />
                       <TouchableOpacity
                         onPress={() => setShowPassword(!showPassword)}
