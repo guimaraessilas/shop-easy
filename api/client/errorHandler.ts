@@ -1,12 +1,12 @@
 import axios, { AxiosRequestConfig, HttpStatusCode } from "axios";
 import { Alert } from "react-native";
 import { authStore } from "@/store/authStore";
-import { authAPI } from "@/api/auth";
 
 const errorHandler = async (
   error: TErrorResponse,
   handleError: boolean,
-  originalRequest?: AxiosRequestConfig
+  originalRequest?: AxiosRequestConfig,
+  refreshToken?: () => Promise<string>
 ) => {
   if (!handleError) {
     return Promise.reject(error);
@@ -14,24 +14,17 @@ const errorHandler = async (
 
   const { response } = error;
 
-  if (response?.status === HttpStatusCode.Unauthorized && originalRequest) {
+  if (
+    response?.status === HttpStatusCode.Unauthorized &&
+    originalRequest &&
+    refreshToken
+  ) {
     try {
-      const oldRefreshToken = authStore.getState().refreshToken;
-
-      if (oldRefreshToken) {
-        const { accessToken, refreshToken } = await authAPI.refresh({
-          refreshToken: oldRefreshToken,
-        });
-
-        authStore.getState().updateTokens({ accessToken, refreshToken });
-
-        originalRequest.headers!.Authorization = `Bearer ${accessToken}`;
-
-        return axios(originalRequest);
-      } else {
-        authStore.getState().logout();
-      }
+      const newAccessToken = await refreshToken();
+      originalRequest.headers!.Authorization = `Bearer ${newAccessToken}`;
+      return axios(originalRequest);
     } catch (refreshError) {
+      console.log("Erro ao renovar token: ", refreshError);
       authStore.getState().logout();
       return Promise.reject(refreshError);
     }

@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import errorHandler from "./errorHandler";
 import { authStore } from "@/store/authStore";
+import { refreshToken } from "./refreshToken";
 
 const createAxiosInstance = () => {
   const instance = axios.create({
@@ -12,6 +13,7 @@ const createAxiosInstance = () => {
 
   instance.interceptors.request.use(
     async (config) => {
+      await authStore.getState().loadToken();
       const accessToken = authStore.getState().accessToken;
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -31,7 +33,12 @@ const client = async (options: AxiosRequestConfig, handleError = true) => {
     const response: AxiosResponse = await instance(options);
     return response.data;
   } catch (error) {
-    return await errorHandler(error as TErrorResponse, handleError, options);
+    return await errorHandler(
+      error as TErrorResponse,
+      handleError,
+      options,
+      refreshToken
+    );
   }
 };
 

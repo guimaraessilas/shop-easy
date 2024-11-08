@@ -7,6 +7,8 @@ import { VStack } from "@/components/ui/vstack";
 import { Link } from "expo-router";
 import { useFetchAllProducts } from "@/hooks/products/useFetchAllProducts";
 import { useIsLargeScreen } from "@/hooks/useIsLargeScreen";
+import Loader from "@/components/loader";
+import { useEffect, useState } from "react";
 
 type ProductsList = {
   category: "male" | "female";
@@ -14,7 +16,7 @@ type ProductsList = {
 
 const ProductsList = ({ category }: ProductsList) => {
   const isLargeScreen = useIsLargeScreen();
-
+  const [numColumns] = useState(isLargeScreen ? 3 : 2);
   const { data, isLoading, error } = useFetchAllProducts({ category });
 
   const renderItem = ({ item }: { item: TProduct }) => (
@@ -24,11 +26,7 @@ const ProductsList = ({ category }: ProductsList) => {
   const keyExtractor = (item: TProduct) => String(item.id);
 
   if (isLoading) {
-    return (
-      <VStack className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </VStack>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -44,7 +42,7 @@ const ProductsList = ({ category }: ProductsList) => {
   return (
     <Box className="bg-white flex-1 justify-center">
       <FlatList
-        numColumns={isLargeScreen ? 3 : 2}
+        numColumns={numColumns}
         data={data}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
