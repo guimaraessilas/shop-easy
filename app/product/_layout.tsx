@@ -3,14 +3,25 @@ import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { router, Stack } from "expo-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "@/api/queryClient";
-import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const ProductLayout = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <GluestackUIProvider>
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+          }}
+        >
           <Stack
             screenOptions={{
               headerShown: true,

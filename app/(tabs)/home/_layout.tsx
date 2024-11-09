@@ -1,4 +1,9 @@
-import { SafeAreaView, useWindowDimensions } from "react-native";
+import {
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  useWindowDimensions,
+} from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import MaleProducts from "./male";
 import FemaleProducts from "./female";
@@ -21,7 +26,12 @@ export default function HomeLayout() {
   const [index, setIndex] = useState(INITIAL_ROUTE_INDEX);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+    >
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
