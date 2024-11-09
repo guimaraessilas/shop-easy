@@ -12,17 +12,17 @@ This project is a cross-platform app (Android, iOS, and web) of an online store 
 1. Clone the repository:
 
    ```bash
-   $ git clone https://github.com/guimaraessilas/shop-easy.git
+   git clone https://github.com/guimaraessilas/shop-easy.git
    ```
 
    ```bash
-   $ cd shop-easy
+   cd shop-easy
    ```
 
 2. Install the project dependencies:
 
    ```bash
-   $ npm install
+   npm install
    ```
 
 ## Running the Project
@@ -30,7 +30,7 @@ This project is a cross-platform app (Android, iOS, and web) of an online store 
 To start the app in development mode:
 
 ```bash
-$ npx expo start
+npx expo start
 ```
 
 This will open the Expo developer tools in the terminal, allowing you to select an emulator, run on the web, or scan the QR code to run the app on your mobile device.
