@@ -70,7 +70,7 @@ const Settings = () => {
         <VStack className="m-4">
           <OptionItem icon="person" label="Meus dados" />
           <OptionItem icon="notifications" label="Notificações" />
-          <OptionItem icon="document-text" label="Termos de uso" />
+          <OptionItem icon="edit-document" label="Termos de uso" />
         </VStack>
 
         <Box className="px-5">

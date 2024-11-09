@@ -21,11 +21,11 @@ import {
   StyleSheet,
   TextInput,
   TextInputProps,
-  ScrollView,
   Keyboard,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useLogin } from "@/hooks/authentication/useLogin";
+import { HStack } from "@/components/ui/hstack";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -98,9 +98,16 @@ const Login = () => {
                   )}
                 />
                 {errors.username && (
-                  <Text className="text-red-500">
-                    {errors.username.message}
-                  </Text>
+                  <HStack className="items-center">
+                    <MaterialIcons
+                      name="error-outline"
+                      size={16}
+                      color="#f00"
+                    />
+                    <Text className="text-red-500 flex-row items-center ml-2">
+                      Campo obrigatório
+                    </Text>
+                  </HStack>
                 )}
 
                 <FormControlLabel>
@@ -137,9 +144,16 @@ const Login = () => {
                   )}
                 />
                 {errors.password && (
-                  <Text className="text-red-500">
-                    {errors.password.message}
-                  </Text>
+                  <HStack className="items-center">
+                    <MaterialIcons
+                      name="error-outline"
+                      size={16}
+                      color="#f00"
+                    />
+                    <Text className="text-red-500 flex-row items-center ml-2">
+                      Campo obrigatório
+                    </Text>
+                  </HStack>
                 )}
               </FormControl>
 

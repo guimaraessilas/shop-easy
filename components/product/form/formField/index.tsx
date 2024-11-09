@@ -6,7 +6,12 @@ import {
 import { InputField, Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
-import { Control, FieldError, Controller } from "react-hook-form";
+import {
+  Control,
+  FieldError,
+  Controller,
+  RegisterOptions,
+} from "react-hook-form";
 import { TextInputProps } from "react-native";
 
 type FormFieldProps = {
@@ -14,7 +19,10 @@ type FormFieldProps = {
   label: string;
   control: Control<TProduct>;
   error?: FieldError;
-  rules: any;
+  rules: Omit<
+    RegisterOptions<TProduct, keyof TProduct>,
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
+  >;
   inputProps?: Partial<React.ComponentProps<typeof InputField>>;
 };
 

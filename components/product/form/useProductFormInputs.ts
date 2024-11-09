@@ -1,12 +1,16 @@
 import { RefObject, useRef } from "react";
 import { KeyboardType, ReturnKeyTypeOptions, TextInput } from "react-native";
 import { validationRules } from "./validationRules";
+import { RegisterOptions } from "react-hook-form";
 
 type InputFieldProps = {
   name: keyof TProduct;
   label: string;
   inputRef?: RefObject<TextInput>;
-  rules: any;
+  rules: Omit<
+    RegisterOptions<TProduct, keyof TProduct>,
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
+  >;
   inputProps: Record<string, any>;
 };
 
