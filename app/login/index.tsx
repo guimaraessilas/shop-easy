@@ -71,7 +71,7 @@ const Login = () => {
             <VStack className="m-3">
               {error && (
                 <Text className="text-red-500 text-center">
-                  Username ou senha
+                  Username ou senha inválidos
                 </Text>
               )}
               <FormControl size="md" className="m-2">
