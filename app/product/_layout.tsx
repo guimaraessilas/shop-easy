@@ -13,12 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const ProductLayout = () => {
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      }}
-    >
+    <SafeAreaView style={styles.safeContainer}>
       <Stack
         screenOptions={{
           headerShown: true,
@@ -44,6 +39,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 48,
     height: 48,
+  },
+  safeContainer: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
 

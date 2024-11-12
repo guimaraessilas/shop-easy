@@ -48,10 +48,18 @@ const Settings = () => {
         onClose={toggleAlertVisibility}
         title="Sair da conta"
       />
-      <Box className="h-[240px] bg-blue-500" />
+      <Box className="h-64 bg-blue-500" />
 
-      <VStack className="rounded-t-xl bg-white -mt-20 flex-1">
-        <VStack className="items-center -mt-20">
+      <VStack
+        className="flex-1"
+        style={{
+          backgroundColor: "white",
+          marginTop: -20,
+          borderTopRightRadius: 16,
+          borderTopLeftRadius: 16,
+        }}
+      >
+        <VStack className="items-center" style={{ marginTop: -60 }}>
           <Avatar size="2xl">
             <AvatarFallbackText>{`${user?.firstName} ${user?.lastName}`}</AvatarFallbackText>
             <AvatarImage
@@ -61,24 +69,24 @@ const Settings = () => {
             />
           </Avatar>
         </VStack>
-        <VStack className="items-center">
+        <VStack className="items-center mb-4">
           <Text className="text-lg font-bold">
             {`${user?.firstName} ${user?.lastName}`}
           </Text>
-          <Text className="text-textLight500">{user?.email}</Text>
+          <Text>{user?.email}</Text>
         </VStack>
-        <VStack className="m-4">
+        <VStack className="m-2">
           <OptionItem icon="person" label="Meus dados" />
           <OptionItem icon="notifications" label="Notificações" />
           <OptionItem icon="edit-document" label="Termos de uso" />
         </VStack>
 
-        <Box className="px-5">
+        <Box className="m-2">
           <Button
             onPress={toggleAlertVisibility}
             className="bg-red-500 rounded-lg"
           >
-            <Text className="text-white font-bold">Sair da conta</Text>
+            <Text className="text-typography-0 font-bold">Sair da conta</Text>
           </Button>
         </Box>
       </VStack>

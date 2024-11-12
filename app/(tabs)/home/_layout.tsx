@@ -2,6 +2,7 @@ import {
   Platform,
   SafeAreaView,
   StatusBar,
+  StyleSheet,
   useWindowDimensions,
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
@@ -26,12 +27,7 @@ export default function HomeLayout() {
   const [index, setIndex] = useState(INITIAL_ROUTE_INDEX);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      }}
-    >
+    <SafeAreaView style={styles.safeContainer}>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -40,11 +36,9 @@ export default function HomeLayout() {
         renderTabBar={(props) => (
           <TabBar
             {...props}
-            style={{ backgroundColor: "#fff" }}
-            indicatorStyle={{ backgroundColor: "#2567E8" }}
-            labelStyle={{
-              color: "#000",
-            }}
+            style={styles.tabBarStyle}
+            indicatorStyle={styles.indicatorStyle}
+            labelStyle={styles.labelStyle}
             activeColor="#000"
             inactiveColor="#000"
           />
@@ -53,3 +47,19 @@ export default function HomeLayout() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  tabBarStyle: {
+    backgroundColor: "#fff",
+  },
+  indicatorStyle: {
+    backgroundColor: "#2567E8",
+  },
+  labelStyle: {
+    color: "#000",
+  },
+});

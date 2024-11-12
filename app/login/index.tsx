@@ -55,24 +55,26 @@ const Login = () => {
   };
 
   return (
-    <Box onTouchStart={() => Keyboard.dismiss()} className="flex-1">
-      <Box className="bg-blue-500 flex-1" />
-      <Box className="bg-white-500 flex-1" />
+    <VStack onTouchStart={() => Keyboard.dismiss()} className="flex-1">
+      <Box className="bg-blue-500" style={styles.topColor} />
+
       <Box className="absolute" style={styles.content}>
-        <Heading className="text-white text-center">
-          Bem-vindo de volta!
-        </Heading>
-        <Text className="text-white text-center m-6">
-          Insira seus dados para entrar na sua conta.
-        </Text>
-        <Card className="max-w-md p-6 bg-white rounded-lg shadow-lg w-full">
+        <VStack style={{ marginBottom: 30 }}>
+          <Heading className="text-center text-typography-0">
+            Bem-vindo de volta!
+          </Heading>
+          <Text className="text-typography-0 text-center m-6">
+            Insira seus dados para entrar na sua conta.
+          </Text>
+        </VStack>
+        <Card className="p-6 rounded-lg shadow-lg w-full">
           <VStack className="m-3">
             {error && (
               <Text className="text-red-500 text-center">
                 Username ou senha inválidos
               </Text>
             )}
-            <FormControl size="md" className="m-2">
+            <FormControl size="md">
               <FormControlLabel>
                 <FormControlLabelText>Username</FormControlLabelText>
               </FormControlLabel>
@@ -81,12 +83,11 @@ const Login = () => {
                 name="username"
                 rules={{ required: "Username é obrigatório" }}
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <Input className="p-2">
+                  <Input>
                     <InputField
                       value={value}
                       onBlur={onBlur}
                       onChangeText={onChange}
-                      className="text-base"
                       returnKeyType="next"
                       onSubmitEditing={() => passwordInputRef.current?.focus()}
                     />
@@ -116,9 +117,8 @@ const Login = () => {
                       value={value}
                       onBlur={onBlur}
                       onChangeText={onChange}
-                      secureTextEntry={!showPassword}
-                      className="text-base flex-1"
                       returnKeyType="done"
+                      type={showPassword ? "text" : "password"}
                       onSubmitEditing={handleSubmit(onSubmit)}
                     />
                     <TouchableOpacity
@@ -126,7 +126,7 @@ const Login = () => {
                     >
                       <MaterialIcons
                         name={showPassword ? "visibility" : "visibility-off"}
-                        size={24}
+                        size={20}
                         color="#333"
                       />
                     </TouchableOpacity>
@@ -146,7 +146,7 @@ const Login = () => {
             <Button
               onPress={handleSubmit(onSubmit)}
               size="sm"
-              className="bg-blue-500 m-3 flex-row items-center justify-center"
+              className="bg-blue-500 flex-row items-center justify-center"
               disabled={isLoading || !isValid}
             >
               {isLoading ? (
@@ -158,7 +158,7 @@ const Login = () => {
           </VStack>
         </Card>
       </Box>
-    </Box>
+    </VStack>
   );
 };
 
@@ -167,7 +167,9 @@ export default Login;
 const styles = StyleSheet.create({
   content: {
     alignSelf: "center",
-    top: Dimensions.get("window").height / 3.5,
-    marginHorizontal: 20,
+    top: "30%",
+  },
+  topColor: {
+    height: "50%",
   },
 });

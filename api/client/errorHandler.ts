@@ -18,8 +18,10 @@ const errorHandler = async (
   if (response?.status === HttpStatusCode.Unauthorized && originalRequest) {
     try {
       const newAccessToken = await refreshToken();
-
-      originalRequest.headers!.Authorization = `Bearer ${newAccessToken}`;
+      if (!originalRequest.headers) {
+        originalRequest.headers = {};
+      }
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
       return axios(originalRequest);
     } catch (refreshError) {
       console.error("Erro ao tentar atualizar o token: ", refreshError);
