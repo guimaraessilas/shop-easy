@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: shop-easy
+    env: static
+    buildCommand: npm install && npx expo export --platform web
+    staticPublishPath: web-build
+    envVars:
+      - key: NODE_VERSION
+        value: 20
