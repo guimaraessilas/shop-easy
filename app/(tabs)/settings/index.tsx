@@ -50,7 +50,7 @@ const Settings = () => {
       />
       <Box className="h-[240px] bg-blue-500" />
 
-      <VStack className="rounded-t-xl bg-white -mt-20">
+      <VStack className="rounded-t-xl bg-white -mt-20 flex-1">
         <VStack className="items-center -mt-20">
           <Avatar size="2xl">
             <AvatarFallbackText>{`${user?.firstName} ${user?.lastName}`}</AvatarFallbackText>

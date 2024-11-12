@@ -6,11 +6,13 @@ import queryClient from "@/api/queryClient";
 const RootLayout = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      />
+      <GluestackUIProvider mode="light">
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
+      </GluestackUIProvider>
     </QueryClientProvider>
   );
 };

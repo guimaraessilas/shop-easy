@@ -15,7 +15,6 @@ import { useNavigation } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
-  KeyboardAvoidingView,
   ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
@@ -56,9 +55,9 @@ const Login = () => {
   };
 
   return (
-    <VStack onTouchStart={() => Keyboard.dismiss()} className="flex-1">
+    <Box onTouchStart={() => Keyboard.dismiss()} className="flex-1">
       <Box className="bg-blue-500 flex-1" />
-      <Box className="bg-white flex-1" />
+      <Box className="bg-white-500 flex-1" />
       <Box className="absolute" style={styles.content}>
         <Heading className="text-white text-center">
           Bem-vindo de volta!
@@ -67,113 +66,99 @@ const Login = () => {
           Insira seus dados para entrar na sua conta.
         </Text>
         <Card className="max-w-md p-6 bg-white rounded-lg shadow-lg w-full">
-          <KeyboardAvoidingView behavior="padding">
-            <VStack className="m-3">
-              {error && (
-                <Text className="text-red-500 text-center">
-                  Username ou senha inválidos
-                </Text>
+          <VStack className="m-3">
+            {error && (
+              <Text className="text-red-500 text-center">
+                Username ou senha inválidos
+              </Text>
+            )}
+            <FormControl size="md" className="m-2">
+              <FormControlLabel>
+                <FormControlLabelText>Username</FormControlLabelText>
+              </FormControlLabel>
+              <Controller
+                control={control}
+                name="username"
+                rules={{ required: "Username é obrigatório" }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input className="p-2">
+                    <InputField
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      className="text-base"
+                      returnKeyType="next"
+                      onSubmitEditing={() => passwordInputRef.current?.focus()}
+                    />
+                  </Input>
+                )}
+              />
+              {errors.username && (
+                <HStack className="items-center">
+                  <MaterialIcons name="error-outline" size={16} color="#f00" />
+                  <Text className="text-red-500 flex-row items-center ml-2">
+                    Campo obrigatório
+                  </Text>
+                </HStack>
               )}
-              <FormControl size="md" className="m-2">
-                <FormControlLabel>
-                  <FormControlLabelText>Username</FormControlLabelText>
-                </FormControlLabel>
-                <Controller
-                  control={control}
-                  name="username"
-                  rules={{ required: "Username é obrigatório" }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input className="p-2">
-                      <InputField
-                        value={value}
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        className="text-base"
-                        returnKeyType="next"
-                        onSubmitEditing={() =>
-                          passwordInputRef.current?.focus()
-                        }
-                      />
-                    </Input>
-                  )}
-                />
-                {errors.username && (
-                  <HStack className="items-center">
-                    <MaterialIcons
-                      name="error-outline"
-                      size={16}
-                      color="#f00"
-                    />
-                    <Text className="text-red-500 flex-row items-center ml-2">
-                      Campo obrigatório
-                    </Text>
-                  </HStack>
-                )}
 
-                <FormControlLabel>
-                  <FormControlLabelText>Senha</FormControlLabelText>
-                </FormControlLabel>
-                <Controller
-                  control={control}
-                  name="password"
-                  rules={{ required: "Senha é obrigatória" }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input className="p-2 flex-row items-center">
-                      <InputField
-                        ref={
-                          passwordInputRef as React.LegacyRef<TextInputProps>
-                        }
-                        value={value}
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        secureTextEntry={!showPassword}
-                        className="text-base flex-1"
-                        returnKeyType="done"
-                        onSubmitEditing={handleSubmit(onSubmit)}
-                      />
-                      <TouchableOpacity
-                        onPress={() => setShowPassword(!showPassword)}
-                      >
-                        <MaterialIcons
-                          name={showPassword ? "visibility" : "visibility-off"}
-                          size={24}
-                          color="#333"
-                        />
-                      </TouchableOpacity>
-                    </Input>
-                  )}
-                />
-                {errors.password && (
-                  <HStack className="items-center">
-                    <MaterialIcons
-                      name="error-outline"
-                      size={16}
-                      color="#f00"
+              <FormControlLabel>
+                <FormControlLabelText>Senha</FormControlLabelText>
+              </FormControlLabel>
+              <Controller
+                control={control}
+                name="password"
+                rules={{ required: "Senha é obrigatória" }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input className="p-2 flex-row items-center">
+                    <InputField
+                      ref={passwordInputRef as React.LegacyRef<TextInputProps>}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      secureTextEntry={!showPassword}
+                      className="text-base flex-1"
+                      returnKeyType="done"
+                      onSubmitEditing={handleSubmit(onSubmit)}
                     />
-                    <Text className="text-red-500 flex-row items-center ml-2">
-                      Campo obrigatório
-                    </Text>
-                  </HStack>
+                    <TouchableOpacity
+                      onPress={() => setShowPassword(!showPassword)}
+                    >
+                      <MaterialIcons
+                        name={showPassword ? "visibility" : "visibility-off"}
+                        size={24}
+                        color="#333"
+                      />
+                    </TouchableOpacity>
+                  </Input>
                 )}
-              </FormControl>
+              />
+              {errors.password && (
+                <HStack className="items-center">
+                  <MaterialIcons name="error-outline" size={16} color="#f00" />
+                  <Text className="text-red-500 flex-row items-center ml-2">
+                    Campo obrigatório
+                  </Text>
+                </HStack>
+              )}
+            </FormControl>
 
-              <Button
-                onPress={handleSubmit(onSubmit)}
-                size="sm"
-                className="bg-blue-500 m-3 flex-row items-center justify-center"
-                disabled={isLoading || !isValid}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="#fff" />
-                ) : (
-                  <ButtonText>Entrar</ButtonText>
-                )}
-              </Button>
-            </VStack>
-          </KeyboardAvoidingView>
+            <Button
+              onPress={handleSubmit(onSubmit)}
+              size="sm"
+              className="bg-blue-500 m-3 flex-row items-center justify-center"
+              disabled={isLoading || !isValid}
+            >
+              {isLoading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <ButtonText>Entrar</ButtonText>
+              )}
+            </Button>
+          </VStack>
         </Card>
       </Box>
-    </VStack>
+    </Box>
   );
 };
 
