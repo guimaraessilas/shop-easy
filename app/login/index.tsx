@@ -59,7 +59,7 @@ const Login = () => {
       <Box className="bg-blue-500" style={styles.topColor} />
 
       <Box className="absolute" style={styles.content}>
-        <VStack style={{ marginBottom: 30 }}>
+        <VStack style={styles.textContainer}>
           <Heading className="text-center text-typography-0">
             Bem-vindo de volta!
           </Heading>
@@ -171,5 +171,8 @@ const styles = StyleSheet.create({
   },
   topColor: {
     height: "50%",
+  },
+  textContainer: {
+    marginBottom: 30,
   },
 });

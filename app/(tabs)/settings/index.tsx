@@ -15,6 +15,7 @@ import { useFindUserByToken } from "@/hooks/authentication/useFindUserByToken";
 import { authStore } from "@/store/authStore";
 import { router } from "expo-router";
 import { useState } from "react";
+import { StyleSheet } from "react-native";
 
 const Settings = () => {
   const { isLoading, error } = useFindUserByToken();
@@ -50,16 +51,8 @@ const Settings = () => {
       />
       <Box className="h-64 bg-blue-500" />
 
-      <VStack
-        className="flex-1"
-        style={{
-          backgroundColor: "white",
-          marginTop: -20,
-          borderTopRightRadius: 16,
-          borderTopLeftRadius: 16,
-        }}
-      >
-        <VStack className="items-center" style={{ marginTop: -60 }}>
+      <VStack className="flex-1" style={styles.infoContainer}>
+        <VStack className="items-center" style={styles.avatarContainer}>
           <Avatar size="2xl">
             <AvatarFallbackText>{`${user?.firstName} ${user?.lastName}`}</AvatarFallbackText>
             <AvatarImage
@@ -94,3 +87,13 @@ const Settings = () => {
   );
 };
 export default Settings;
+
+const styles = StyleSheet.create({
+  avatarContainer: { marginTop: -60 },
+  infoContainer: {
+    backgroundColor: "white",
+    marginTop: -20,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+  },
+});

@@ -71,6 +71,16 @@ The project emulates an online store and includes the following features:
 - **[Axios](https://axios-http.com/docs/intro)**
 - **[React Native Tab View](https://reactnavigation.org/docs/tab-view/)**
 
+## TODO:
+
+- [ ] Add pagination on fetch of products.
+- [ ] Add products search.
+- [ ] Add products list on zustand store.
+- [ ] Write unit tests.
+- [ ] Remove StyleSheet uses.
+- [ ] Check accessibility labels all over the app.
+- [ ] Add Sonar, eslint and husky.
+
 ## Author
 
 **Silas Guimarães Rineiro**
