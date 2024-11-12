@@ -74,7 +74,7 @@ const Login = () => {
                 Username ou senha inválidos
               </Text>
             )}
-            <FormControl size="md">
+            <FormControl size="md" className="mb-4">
               <FormControlLabel>
                 <FormControlLabelText>Username</FormControlLabelText>
               </FormControlLabel>
